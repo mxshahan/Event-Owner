@@ -4,12 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon bin/dev",
-    "build": "node bin/build",
-    "bclient": "webpack",
-    "start": "node dist/server/app",
-    "client": "webpack-dev-server -w",
-    "test": "jest"
+    "start": "node dist/server/app"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
