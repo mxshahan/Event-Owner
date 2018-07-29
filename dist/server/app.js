@@ -36,9 +36,9 @@ var publicPath = _path2.default.resolve(__dirname, '../../public');
 (0, _routes2.default)(app);
 // dbCreate(app);
 
-app.use(_express2.default.static(clientPath));
-// app.use(express.static(publicPath));
-app.use((0, _expressHistoryApiFallback2.default)('index.html', { root: clientPath }));
+app.use('/client', _express2.default.static(clientPath));
+app.use(_express2.default.static(publicPath));
+app.use((0, _expressHistoryApiFallback2.default)('index.html', { root: publicPath }));
 
 app.listen(port, function (err, next) {
   if (err) throw err;
