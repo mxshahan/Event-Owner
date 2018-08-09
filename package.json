@@ -5,10 +5,11 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon bin/dev",
+    "prebuild": "rimraf dist",
     "build": "node bin/build & npm run client",
-    "client": "SET NODE_ENV=production & webpack --config webpack.prod.js",
+    "client": "cross-env NODE_ENV=production & webpack --config webpack.prod.js",
     "start": "node dist/server/app",
-    "dev-server": "SET NODE_ENV=development & webpack-dev-server --config webpack.dev.js --open --progress -w",
+    "dev-server": "cross-env NODE_ENV=development & webpack-dev-server --config webpack.dev.js --open --progress -w",
     "test": "jest"
   },
   "dependencies": {
