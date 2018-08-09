@@ -18,7 +18,7 @@ var secret = _config2.default.secret;
 
 var jwtVerify = function jwtVerify(token) {
   return new Promise(function (resolve, reject) {
-    (0, _jsonwebtoken.verify)(token.replace('Bearer ', ''), secret, function (err, decoded) {
+    (0, _jsonwebtoken.verify)(token.replace('JWT ', ''), secret, function (err, decoded) {
       if (err || !decoded) {
         reject(err);
       }
@@ -33,7 +33,7 @@ var generateJwt = function generateJwt(data) {
       if (err) {
         reject(err);
       }
-      resolve('Bearer ' + token);
+      resolve('JWT ' + token);
     });
   });
 };

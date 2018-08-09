@@ -29,16 +29,16 @@ var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
 
 var _config = require('../config/config');
 
+var _config2 = _interopRequireDefault(_config);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var userSchema = new _mongoose2.default.Schema({
     firstname: {
-        type: String,
-        required: true
+        type: String
     },
     lastname: {
-        type: String,
-        required: true
+        type: String
     },
     username: {
         type: String,
@@ -53,6 +53,9 @@ var userSchema = new _mongoose2.default.Schema({
         type: String,
         required: true,
         unique: true
+    },
+    phone: {
+        type: String
     },
     acc_type: {
         type: String,
@@ -84,30 +87,24 @@ userSchema.methods = {
     },
     createToken: function createToken() {
         return _jsonwebtoken2.default.sign({
-            _id: this._id
-        }, "Shuvojit");
-    },
-    verifyToken: function verifyToken(token) {
-        console.log(token);
-        // return jwt.verify(token.replace('JWT ', ''), secret, (err, decode) => {
-        //     if(err || !decode) {
-        //       throw err
-        //     } 
-        //     return decode;
-        // })
+            _id: this._id,
+            username: this.username
+        }, _config2.default.secret);
     },
     toAuthJSON: function toAuthJSON() {
         return {
             success: true,
             token: 'JWT ' + this.createToken()
         };
-    },
-    toJSON: function toJSON() {
-        return {
-            _id: this._id,
-            username: this.username
-        };
     }
+
+    // toJSON() {
+    //     return {
+    //         _id: this._id,
+    //         username: this.username,
+    //     }
+    // }
+
 };
 
 userSchema.plugin(_mongooseUniqueValidator2.default);

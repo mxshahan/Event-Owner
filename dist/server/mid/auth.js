@@ -35,35 +35,31 @@ var isAuth = exports.isAuth = function () {
 
           case 4:
             payload = _context.sent;
-            _context.next = 10;
-            break;
-
-          case 7:
-            _context.prev = 7;
-            _context.t0 = _context['catch'](1);
-            throw _context.t0.message;
-
-          case 10:
-            _context.prev = 10;
 
             if (payload) {
-              _context.next = 13;
+              _context.next = 7;
               break;
             }
 
             throw { message: 'Token has expired' };
 
-          case 13:
+          case 7:
             req.user = payload;
             next();
-            return _context.finish(10);
+            _context.next = 14;
+            break;
 
-          case 16:
+          case 11:
+            _context.prev = 11;
+            _context.t0 = _context['catch'](1);
+            throw _context.t0.message;
+
+          case 14:
           case 'end':
             return _context.stop();
         }
       }
-    }, _callee, undefined, [[1, 7, 10, 16]]);
+    }, _callee, undefined, [[1, 11]]);
   }));
 
   return function isAuth(_x, _x2, _x3) {
