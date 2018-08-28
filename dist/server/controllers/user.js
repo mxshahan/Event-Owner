@@ -156,7 +156,7 @@ var getUser = exports.getUser = function () {
             _context4.next = 3;
             return _user.userModel.findOne({
               username: req.user.username
-            });
+            }).select('-password -events -gifts');
 
           case 3:
             user = _context4.sent;

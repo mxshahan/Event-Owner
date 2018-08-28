@@ -8,10 +8,6 @@ var _expressPromiseRouter = require('express-promise-router');
 
 var _expressPromiseRouter2 = _interopRequireDefault(_expressPromiseRouter);
 
-var _passport = require('passport');
-
-var _passport2 = _interopRequireDefault(_passport);
-
 var _cors = require('cors');
 
 var _cors2 = _interopRequireDefault(_cors);
@@ -24,6 +20,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // const passportJWT = passport.authenticate('jwt', { session: false });
 var router = (0, _expressPromiseRouter2.default)();
+// import passport from 'passport';
+
 
 router.route('/login').options((0, _cors2.default)()).post(_user.LoginUser);
 router.route('/create').options((0, _cors2.default)()).post(_user.createUser);

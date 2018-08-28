@@ -30,13 +30,12 @@ var _cors2 = _interopRequireDefault(_cors);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var isDev = process.env.NODE_ENV == "development";
-var isProd = process.env.NODE_ENV == "production";
+var env = process.env.NODE_ENV;
 
 // const ENV = "development"
 
 exports.default = function (app) {
-    if (isProd) {
+    if (env.includes('production')) {
         app.use((0, _compression2.default)());
         app.use((0, _helmet2.default)());
     }
@@ -44,7 +43,7 @@ exports.default = function (app) {
     app.use(_bodyParser2.default.json());
     app.use(_bodyParser2.default.urlencoded({ extended: true }));
     app.use(_passport2.default.initialize());
-    if (isDev) {
+    if (env.includes('development')) {
         app.use((0, _morgan2.default)('dev'));
     }
 
