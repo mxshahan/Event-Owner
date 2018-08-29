@@ -30,4 +30,6 @@ router.route('/update').options((0, _cors2.default)()).put((0, _validateInput.va
 
 router.route('/MY_EVENTS').options((0, _cors2.default)()).get(_auth.isAuth, _event.getEvent);
 
+router.route('/:id').get(_event.getSingleEvent);
+
 exports.default = router;

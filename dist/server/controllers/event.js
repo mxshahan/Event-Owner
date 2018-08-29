@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getEvent = exports.updateEvent = exports.createEvent = exports.getAllEvent = undefined;
+exports.getSingleEvent = exports.getEvent = exports.updateEvent = exports.createEvent = exports.getAllEvent = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -191,5 +191,47 @@ var getEvent = exports.getEvent = function () {
 
     return function getEvent(_x7, _x8) {
         return _ref4.apply(this, arguments);
+    };
+}();
+
+var getSingleEvent = exports.getSingleEvent = function () {
+    var _ref5 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee5(req, res) {
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
+            while (1) {
+                switch (_context5.prev = _context5.next) {
+                    case 0:
+                        _context5.prev = 0;
+                        _context5.next = 3;
+                        return _event.eventCrud.single({
+                            qr: {
+                                _id: req.params.id
+                            }
+                        });
+
+                    case 3:
+                        events = _context5.sent;
+
+                        res.status(201).json(events);
+                        _context5.next = 10;
+                        break;
+
+                    case 7:
+                        _context5.prev = 7;
+                        _context5.t0 = _context5['catch'](0);
+
+                        res.status(422).json({
+                            success: false
+                        });
+
+                    case 10:
+                    case 'end':
+                        return _context5.stop();
+                }
+            }
+        }, _callee5, undefined, [[0, 7]]);
+    }));
+
+    return function getSingleEvent(_x9, _x10) {
+        return _ref5.apply(this, arguments);
     };
 }();
