@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getSingleEvent = exports.getEvent = exports.updateEvent = exports.createEvent = exports.getAllEvent = undefined;
+exports.getSingleEvent = exports.getEvent = exports.deleteEvent = exports.updateEvent = exports.createEvent = exports.getAllEvent = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -151,8 +151,8 @@ var updateEvent = exports.updateEvent = function () {
     };
 }();
 
-// Get My Event
-var getEvent = exports.getEvent = function () {
+// Event Delete
+var deleteEvent = exports.deleteEvent = function () {
     var _ref4 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee4(req, res) {
         return _regenerator2.default.wrap(function _callee4$(_context4) {
             while (1) {
@@ -160,16 +160,21 @@ var getEvent = exports.getEvent = function () {
                     case 0:
                         _context4.prev = 0;
                         _context4.next = 3;
-                        return _event.eventCrud.get({
-                            qr: {
-                                author: req.user._id
+                        return _event.eventCrud.delete({
+                            params: {
+                                qr: {
+                                    _id: req.params.id,
+                                    author: req.user._id
+                                }
                             }
                         });
 
                     case 3:
                         events = _context4.sent;
 
-                        res.status(201).json(events);
+                        res.status(201).json({
+                            success: true
+                        });
                         _context4.next = 10;
                         break;
 
@@ -189,12 +194,13 @@ var getEvent = exports.getEvent = function () {
         }, _callee4, undefined, [[0, 7]]);
     }));
 
-    return function getEvent(_x7, _x8) {
+    return function deleteEvent(_x7, _x8) {
         return _ref4.apply(this, arguments);
     };
 }();
 
-var getSingleEvent = exports.getSingleEvent = function () {
+// Get My Event
+var getEvent = exports.getEvent = function () {
     var _ref5 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee5(req, res) {
         return _regenerator2.default.wrap(function _callee5$(_context5) {
             while (1) {
@@ -202,9 +208,9 @@ var getSingleEvent = exports.getSingleEvent = function () {
                     case 0:
                         _context5.prev = 0;
                         _context5.next = 3;
-                        return _event.eventCrud.single({
+                        return _event.eventCrud.get({
                             qr: {
-                                _id: req.params.id
+                                author: req.user._id
                             }
                         });
 
@@ -231,7 +237,50 @@ var getSingleEvent = exports.getSingleEvent = function () {
         }, _callee5, undefined, [[0, 7]]);
     }));
 
-    return function getSingleEvent(_x9, _x10) {
+    return function getEvent(_x9, _x10) {
         return _ref5.apply(this, arguments);
+    };
+}();
+
+var getSingleEvent = exports.getSingleEvent = function () {
+    var _ref6 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee6(req, res) {
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
+            while (1) {
+                switch (_context6.prev = _context6.next) {
+                    case 0:
+                        _context6.prev = 0;
+                        _context6.next = 3;
+                        return _event.eventCrud.single({
+                            qr: {
+                                _id: req.params.id
+                            },
+                            populate: 'author'
+                        });
+
+                    case 3:
+                        events = _context6.sent;
+
+                        res.status(201).json(events);
+                        _context6.next = 10;
+                        break;
+
+                    case 7:
+                        _context6.prev = 7;
+                        _context6.t0 = _context6['catch'](0);
+
+                        res.status(422).json({
+                            success: false
+                        });
+
+                    case 10:
+                    case 'end':
+                        return _context6.stop();
+                }
+            }
+        }, _callee6, undefined, [[0, 7]]);
+    }));
+
+    return function getSingleEvent(_x11, _x12) {
+        return _ref6.apply(this, arguments);
     };
 }();

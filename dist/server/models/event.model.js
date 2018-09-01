@@ -13,15 +13,9 @@ var _mongooseTimestamp = require('mongoose-timestamp');
 
 var _mongooseTimestamp2 = _interopRequireDefault(_mongooseTimestamp);
 
-var _bcryptjs = require('bcryptjs');
-
 var _crud = require('../config/crud');
 
 var _crud2 = _interopRequireDefault(_crud);
-
-var _jsonwebtoken = require('jsonwebtoken');
-
-var _jsonwebtoken2 = _interopRequireDefault(_jsonwebtoken);
 
 var _config = require('../config/config');
 

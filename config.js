@@ -1,7 +1,7 @@
 const api = {
-    server: 'https://event-owner.herokuapp.com',
+    server: process.env.NODE_ENV.includes('development') ? 'http://127.0.0.1:3000' : 'http://event-owner.herokuapp.com',
     dev: 'http://127.0.0.1:3000',
-    siteurl: 'https://event-owner.herokuapp.com'
+    siteurl: 'http://127.0.0.1:3000'
 }
 
-module.exports = api;
+export default api;

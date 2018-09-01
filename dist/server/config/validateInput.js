@@ -69,5 +69,11 @@ var schemas = exports.schemas = {
         payment: _joi2.default.array(),
         files: _joi2.default.array(),
         gifts: _joi2.default.array()
+    }),
+    contact: _joi2.default.object().keys({
+        name: _joi2.default.string().required(),
+        email: _joi2.default.string().email().required(),
+        phone: _joi2.default.string(),
+        message: _joi2.default.string().required()
     })
 };

@@ -31,6 +31,7 @@
     "mongoose-timestamp": "^0.6.0",
     "mongoose-unique-validator": "^2.0.1",
     "morgan": "^1.9.0",
+    "nodemailer": "^4.6.8",
     "passport": "^0.4.0",
     "rc-time-picker": "^3.4.0",
     "react": "^16.4.1",
