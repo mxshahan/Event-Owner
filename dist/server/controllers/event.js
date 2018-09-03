@@ -9,6 +9,8 @@ var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _event = require('../models/event.model');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -68,7 +70,7 @@ var createEvent = exports.createEvent = function () {
             while (1) {
                 switch (_context2.prev = _context2.next) {
                     case 0:
-                        data = Object.assign(req.body, {
+                        data = _extends(req.body, {
                             author: req.user._id
                         });
                         _context2.prev = 1;
@@ -116,7 +118,10 @@ var updateEvent = exports.updateEvent = function () {
                         _context3.next = 3;
                         return _event.eventCrud.put({
                             params: {
-                                qr: { _id: req.params.id }
+                                qr: {
+                                    _id: req.params.id,
+                                    author: req.user._id
+                                }
                             },
                             body: req.body
                         });

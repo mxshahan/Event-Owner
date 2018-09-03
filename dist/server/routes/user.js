@@ -28,5 +28,6 @@ router.route('/create').options((0, _cors2.default)()).post(_user.createUser);
 router.route('/me').get(_auth.isAuth, _user.getUser);
 router.route('/check').options((0, _cors2.default)()).get(_user.checkUser);
 router.route('/all').options((0, _cors2.default)()).get(_user.getAllUser);
+router.route('/upload').options((0, _cors2.default)()).post(_auth.isAuth, _user.fileUpload);
 
 exports.default = router;

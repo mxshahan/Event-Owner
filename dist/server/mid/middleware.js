@@ -28,6 +28,10 @@ var _cors = require('cors');
 
 var _cors2 = _interopRequireDefault(_cors);
 
+var _expressFileupload = require('express-fileupload');
+
+var _expressFileupload2 = _interopRequireDefault(_expressFileupload);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var env = process.env.NODE_ENV;
@@ -42,22 +46,9 @@ exports.default = function (app) {
     app.use((0, _cors2.default)());
     app.use(_bodyParser2.default.json());
     app.use(_bodyParser2.default.urlencoded({ extended: true }));
-    app.use(_passport2.default.initialize());
+    app.use((0, _expressFileupload2.default)());
+    // app.use(passport.initialize());
     if (env.includes('development')) {
         app.use((0, _morgan2.default)('dev'));
     }
-
-    //catch 404 Errors and forward them to error handler
-    app.use(function (err, req, res, next) {
-        var error = app.get('env') === 'development' ? err : {};
-        var status = err.status || 500;
-        //Respond to client
-        res.status(status).json({
-            error: {
-                message: error.message
-            }
-        });
-        //Respond to ourselves
-        console.error(err);
-    });
 };

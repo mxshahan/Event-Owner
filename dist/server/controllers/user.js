@@ -3,19 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.checkUser = exports.getUser = exports.createUser = exports.LoginUser = exports.getAllUser = undefined;
+exports.fileUpload = exports.checkUser = exports.getUser = exports.updateUser = exports.createUser = exports.LoginUser = exports.getAllUser = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _bcryptjs = require('bcryptjs');
-
-var _bcryptjs2 = _interopRequireDefault(_bcryptjs);
-
-var _auth = require('../services/auth');
-
 var _user = require('../models/user.model');
+
+var _shortid = require('shortid');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -146,7 +142,7 @@ var createUser = exports.createUser = function () {
   };
 }();
 
-var getUser = exports.getUser = function () {
+var updateUser = exports.updateUser = function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee4(req, res) {
     return _regenerator2.default.wrap(function _callee4$(_context4) {
       while (1) {
@@ -154,49 +150,90 @@ var getUser = exports.getUser = function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
+            return _user.userCrud.put({
+              params: {
+                qr: {
+                  _id: req.user._id
+                }
+              },
+              body: req.body
+            });
+
+          case 3:
+            user = _context4.sent;
+            _context4.next = 9;
+            break;
+
+          case 6:
+            _context4.prev = 6;
+            _context4.t0 = _context4['catch'](0);
+
+            console.log(_context4.t0);
+
+          case 9:
+          case 'end':
+            return _context4.stop();
+        }
+      }
+    }, _callee4, undefined, [[0, 6]]);
+  }));
+
+  return function updateUser(_x7, _x8) {
+    return _ref4.apply(this, arguments);
+  };
+}();
+
+var getUser = exports.getUser = function () {
+  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee5(req, res) {
+    return _regenerator2.default.wrap(function _callee5$(_context5) {
+      while (1) {
+        switch (_context5.prev = _context5.next) {
+          case 0:
+            _context5.prev = 0;
+            _context5.next = 3;
             return _user.userModel.findOne({
               username: req.user.username
             }).select('-password -events -gifts');
 
           case 3:
-            user = _context4.sent;
+            user = _context5.sent;
 
             res.status(201).json({
               user: user
             });
-            _context4.next = 10;
+            _context5.next = 10;
             break;
 
           case 7:
-            _context4.prev = 7;
-            _context4.t0 = _context4['catch'](0);
+            _context5.prev = 7;
+            _context5.t0 = _context5['catch'](0);
 
-            res.status(500).json(_context4.t0);
+            res.status(500).json(_context5.t0);
 
           case 10:
           case 'end':
-            return _context4.stop();
+            return _context5.stop();
         }
       }
-    }, _callee4, undefined, [[0, 7]]);
+    }, _callee5, undefined, [[0, 7]]);
   }));
 
-  return function getUser(_x7, _x8) {
-    return _ref4.apply(this, arguments);
+  return function getUser(_x9, _x10) {
+    return _ref5.apply(this, arguments);
   };
 }();
 
 var checkUser = exports.checkUser = function () {
-  var _ref5 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee5(req, res) {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee6(req, res) {
     var username;
-    return _regenerator2.default.wrap(function _callee5$(_context5) {
+    return _regenerator2.default.wrap(function _callee6$(_context6) {
       while (1) {
-        switch (_context5.prev = _context5.next) {
+        switch (_context6.prev = _context6.next) {
           case 0:
             // console.log(req.headers.username);
             username = req.headers.username;
-            _context5.prev = 1;
-            _context5.next = 4;
+            _context6.prev = 1;
+            _context6.next = 4;
             return _user.userModel.findOne({
               $or: [{
                 'email': username
@@ -206,7 +243,7 @@ var checkUser = exports.checkUser = function () {
             });
 
           case 4:
-            user = _context5.sent;
+            user = _context6.sent;
 
             if (user) {
               res.status(202).json({
@@ -217,24 +254,98 @@ var checkUser = exports.checkUser = function () {
                 found: false
               });
             }
-            _context5.next = 11;
+            _context6.next = 11;
             break;
 
           case 8:
-            _context5.prev = 8;
-            _context5.t0 = _context5['catch'](1);
+            _context6.prev = 8;
+            _context6.t0 = _context6['catch'](1);
 
-            res.status(422).json(_context5.t0);
+            res.status(422).json(_context6.t0);
 
           case 11:
           case 'end':
-            return _context5.stop();
+            return _context6.stop();
         }
       }
-    }, _callee5, undefined, [[1, 8]]);
+    }, _callee6, undefined, [[1, 8]]);
   }));
 
-  return function checkUser(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function checkUser(_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+var fileUpload = exports.fileUpload = function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
+    var sampleFile, ext, newFilename, uploadPath, uploadStatus;
+    return _regenerator2.default.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            if (req.files) {
+              _context7.next = 2;
+              break;
+            }
+
+            return _context7.abrupt('return', res.status(400).send('No files were uploaded.'));
+
+          case 2:
+
+            // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+            sampleFile = req.files.file;
+            // Use the mv() method to place the file somewhere on your server
+
+            ext = sampleFile.name.split('.');
+            newFilename = Date.now() + '-' + (0, _shortid.generate)() + '.' + ext[1];
+            uploadPath = './public/uploads/' + newFilename;
+            uploadStatus = sampleFile.mv(uploadPath);
+
+            if (uploadStatus) {
+              _context7.next = 9;
+              break;
+            }
+
+            return _context7.abrupt('return', res.status(500).send(err));
+
+          case 9:
+            _context7.prev = 9;
+            _context7.next = 12;
+            return _user.userCrud.put({
+              params: {
+                qr: {
+                  _id: req.user._id
+                },
+                select: '-password -events -gifts'
+              },
+              body: {
+                profile_picture: newFilename
+              }
+            });
+
+          case 12:
+            user = _context7.sent;
+
+
+            res.status(200).json(user);
+            _context7.next = 19;
+            break;
+
+          case 16:
+            _context7.prev = 16;
+            _context7.t0 = _context7['catch'](9);
+
+            res.status(422).json(_context7.t0);
+
+          case 19:
+          case 'end':
+            return _context7.stop();
+        }
+      }
+    }, _callee7, undefined, [[9, 16]]);
+  }));
+
+  return function fileUpload(_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }();

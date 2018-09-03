@@ -28,6 +28,6 @@ router.route('/create').options((0, _cors2.default)()).post((0, _validateInput.v
 
 router.route('/MY_EVENTS').options((0, _cors2.default)()).get(_auth.isAuth, _event.getEvent);
 
-router.route('/:id').get(_event.getSingleEvent).options((0, _cors2.default)()).put((0, _validateInput.validateBody)(_validateInput.schemas.events), _event.updateEvent).delete(_auth.isAuth, _event.deleteEvent);
+router.route('/:id').get(_event.getSingleEvent).options((0, _cors2.default)()).put(_auth.isAuth, (0, _validateInput.validateBody)(_validateInput.schemas.events), _event.updateEvent).delete(_auth.isAuth, _event.deleteEvent);
 
 exports.default = router;

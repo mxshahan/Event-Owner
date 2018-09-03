@@ -61,6 +61,9 @@ var userSchema = new _mongoose2.default.Schema({
         type: String,
         default: 'ordinary'
     },
+    profile_picture: {
+        type: String
+    },
     events: [{
         type: _mongoose2.default.Schema.Types.ObjectId,
         ref: 'eventModel'
