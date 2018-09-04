@@ -301,12 +301,11 @@ var fileUploadEvent = exports.fileUploadEvent = function () {
             while (1) {
                 switch (_context7.prev = _context7.next) {
                     case 0:
-                        console.log(req.filename);
                         res.status(201).json({
                             thumbnail: req.filename
                         });
 
-                    case 2:
+                    case 1:
                     case 'end':
                         return _context7.stop();
                 }

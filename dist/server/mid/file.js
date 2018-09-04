@@ -78,39 +78,37 @@ var fileDelete = exports.fileDelete = function () {
         switch (_context2.prev = _context2.next) {
           case 0:
             if (!file) {
-              _context2.next = 14;
+              _context2.next = 13;
               break;
             }
 
             filePath = './public/uploads/' + file;
-
-            console.log(filePath);
-            _context2.prev = 3;
-            _context2.next = 6;
+            _context2.prev = 2;
+            _context2.next = 5;
             return _fsExtra2.default.remove(filePath);
 
-          case 6:
-            _context2.next = 11;
+          case 5:
+            _context2.next = 10;
             break;
 
-          case 8:
-            _context2.prev = 8;
-            _context2.t0 = _context2['catch'](3);
+          case 7:
+            _context2.prev = 7;
+            _context2.t0 = _context2['catch'](2);
 
-            console.log(_context2.t0); //eslint-disable-line
+            console.log(_context2.t0);
 
-          case 11:
+          case 10:
             return _context2.abrupt('return', file);
 
-          case 14:
+          case 13:
             console.log('no file found');
 
-          case 15:
+          case 14:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, undefined, [[3, 8]]);
+    }, _callee2, undefined, [[2, 7]]);
   }));
 
   return function fileDelete(_x4) {
