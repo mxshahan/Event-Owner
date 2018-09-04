@@ -55,6 +55,9 @@ var eventSchema = new _mongoose2.default.Schema({
         type: _mongoose2.default.Schema.Types.ObjectId,
         ref: 'userModel'
     },
+    thumbnail: {
+        type: String
+    },
     files: [{
         type: String
     }],

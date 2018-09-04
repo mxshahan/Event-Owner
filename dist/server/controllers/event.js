@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getSingleEvent = exports.getEvent = exports.deleteEvent = exports.updateEvent = exports.createEvent = exports.getAllEvent = undefined;
+exports.fileUploadEvent = exports.getSingleEvent = exports.getEvent = exports.deleteEvent = exports.updateEvent = exports.createEvent = exports.getAllEvent = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -12,6 +12,8 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _event = require('../models/event.model');
+
+var _file = require('../mid/file');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -176,27 +178,30 @@ var deleteEvent = exports.deleteEvent = function () {
 
                     case 3:
                         events = _context4.sent;
+                        _context4.next = 6;
+                        return (0, _file.fileDelete)(events.thumbnail);
 
+                    case 6:
                         res.status(201).json({
                             success: true
                         });
-                        _context4.next = 10;
+                        _context4.next = 12;
                         break;
 
-                    case 7:
-                        _context4.prev = 7;
+                    case 9:
+                        _context4.prev = 9;
                         _context4.t0 = _context4['catch'](0);
 
                         res.status(422).json({
                             success: false
                         });
 
-                    case 10:
+                    case 12:
                     case 'end':
                         return _context4.stop();
                 }
             }
-        }, _callee4, undefined, [[0, 7]]);
+        }, _callee4, undefined, [[0, 9]]);
     }));
 
     return function deleteEvent(_x7, _x8) {
@@ -287,5 +292,29 @@ var getSingleEvent = exports.getSingleEvent = function () {
 
     return function getSingleEvent(_x11, _x12) {
         return _ref6.apply(this, arguments);
+    };
+}();
+
+var fileUploadEvent = exports.fileUploadEvent = function () {
+    var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
+            while (1) {
+                switch (_context7.prev = _context7.next) {
+                    case 0:
+                        console.log(req.filename);
+                        res.status(201).json({
+                            thumbnail: req.filename
+                        });
+
+                    case 2:
+                    case 'end':
+                        return _context7.stop();
+                }
+            }
+        }, _callee7, undefined);
+    }));
+
+    return function fileUploadEvent(_x13, _x14) {
+        return _ref7.apply(this, arguments);
     };
 }();

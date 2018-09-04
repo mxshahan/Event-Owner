@@ -278,39 +278,12 @@ var checkUser = exports.checkUser = function () {
 
 var fileUpload = exports.fileUpload = function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
-    var sampleFile, ext, newFilename, uploadPath, uploadStatus;
     return _regenerator2.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
-            if (req.files) {
-              _context7.next = 2;
-              break;
-            }
-
-            return _context7.abrupt('return', res.status(400).send('No files were uploaded.'));
-
-          case 2:
-
-            // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-            sampleFile = req.files.file;
-            // Use the mv() method to place the file somewhere on your server
-
-            ext = sampleFile.name.split('.');
-            newFilename = Date.now() + '-' + (0, _shortid.generate)() + '.' + ext[1];
-            uploadPath = './public/uploads/' + newFilename;
-            uploadStatus = sampleFile.mv(uploadPath);
-
-            if (uploadStatus) {
-              _context7.next = 9;
-              break;
-            }
-
-            return _context7.abrupt('return', res.status(500).send(err));
-
-          case 9:
-            _context7.prev = 9;
-            _context7.next = 12;
+            _context7.prev = 0;
+            _context7.next = 3;
             return _user.userCrud.put({
               params: {
                 qr: {
@@ -319,30 +292,30 @@ var fileUpload = exports.fileUpload = function () {
                 select: '-password -events -gifts'
               },
               body: {
-                profile_picture: newFilename
+                profile_picture: req.filename
               }
             });
 
-          case 12:
+          case 3:
             user = _context7.sent;
 
 
             res.status(200).json(user);
-            _context7.next = 19;
+            _context7.next = 10;
             break;
 
-          case 16:
-            _context7.prev = 16;
-            _context7.t0 = _context7['catch'](9);
+          case 7:
+            _context7.prev = 7;
+            _context7.t0 = _context7['catch'](0);
 
             res.status(422).json(_context7.t0);
 
-          case 19:
+          case 10:
           case 'end':
             return _context7.stop();
         }
       }
-    }, _callee7, undefined, [[9, 16]]);
+    }, _callee7, undefined, [[0, 7]]);
   }));
 
   return function fileUpload(_x13, _x14) {

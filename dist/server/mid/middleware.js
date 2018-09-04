@@ -34,6 +34,8 @@ var _expressFileupload2 = _interopRequireDefault(_expressFileupload);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// import session from 'express-session';
+
 var env = process.env.NODE_ENV;
 
 // const ENV = "development"
@@ -42,6 +44,11 @@ exports.default = function (app) {
     if (env.includes('production')) {
         app.use((0, _compression2.default)());
         app.use((0, _helmet2.default)());
+        app.set('trust proxy', 1); // trust first proxy
+        // app.use(session({
+        //   secret: 's3Cur33D',
+        //   name: 'sessionId'
+        // }))
     }
     app.use((0, _cors2.default)());
     app.use(_bodyParser2.default.json());
