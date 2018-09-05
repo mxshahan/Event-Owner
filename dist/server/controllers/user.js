@@ -292,7 +292,7 @@ var fileUpload = exports.fileUpload = function () {
                 select: '-password -events -gifts'
               },
               body: {
-                profile_picture: req.filename
+                profile_picture: req.filePath
               }
             });
 

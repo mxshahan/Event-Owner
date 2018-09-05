@@ -19,6 +19,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
+var port = process.env.PORT || 3000;
+
 var fileUploadMiddlware = exports.fileUploadMiddlware = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee(req, res, next) {
     var sampleFile, ext, newFilename, uploadPath, uploadStatus;
@@ -46,18 +48,19 @@ var fileUploadMiddlware = exports.fileUploadMiddlware = function () {
 
 
             req.filename = newFilename;
+            req.filePath = req.protocol + '://' + req.hostname + ':' + port + '/uploads/' + newFilename;
 
             if (uploadStatus) {
-              _context.next = 10;
+              _context.next = 11;
               break;
             }
 
             return _context.abrupt('return', res.status(500).send(err));
 
-          case 10:
+          case 11:
             next();
 
-          case 11:
+          case 12:
           case 'end':
             return _context.stop();
         }

@@ -304,11 +304,13 @@ var fileUploadEvent = exports.fileUploadEvent = function () {
             while (1) {
                 switch (_context7.prev = _context7.next) {
                     case 0:
+                        console.log(req.filePath);
                         res.status(201).json({
-                            thumbnail: req.filename
+                            thumbnail: req.filename,
+                            filePath: req.filePath
                         });
 
-                    case 1:
+                    case 2:
                     case 'end':
                         return _context7.stop();
                 }
