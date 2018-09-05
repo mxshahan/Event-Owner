@@ -264,7 +264,10 @@ var getSingleEvent = exports.getSingleEvent = function () {
                             qr: {
                                 _id: req.params.id
                             },
-                            populate: 'author'
+                            populate: {
+                                path: 'author',
+                                select: '-password -_id -email'
+                            }
                         });
 
                     case 3:

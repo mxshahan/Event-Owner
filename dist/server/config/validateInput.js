@@ -69,7 +69,8 @@ var schemas = exports.schemas = {
         payment: [_joi2.default.array().optional(), _joi2.default.allow(null)],
         files: [_joi2.default.array().optional(), _joi2.default.allow(null)],
         gifts: [_joi2.default.array().optional(), _joi2.default.allow(null)],
-        thumbnail: [_joi2.default.string().optional(), _joi2.default.allow(null)]
+        thumbnail: [_joi2.default.string().optional(), _joi2.default.allow(null)],
+        qrCode: [_joi2.default.string().optional(), _joi2.default.allow(null)]
     }),
     contact: _joi2.default.object().keys({
         name: _joi2.default.string().required(),

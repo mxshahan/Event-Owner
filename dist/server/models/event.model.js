@@ -63,7 +63,10 @@ var eventSchema = new _mongoose2.default.Schema({
     }],
     gifts: [{
         type: Number
-    }]
+    }],
+    qrCode: {
+        type: String
+    }
 });
 
 // eventSchema.plugin(uniqueValidator);
