@@ -86,7 +86,7 @@ userSchema.methods = {
         return (0, _bcryptjs.hashSync)(password);
     },
     isAuthenticated: function isAuthenticated(password) {
-        return compareSync(password, this.password);
+        return (0, _bcryptjs.compareSync)(password, this.password);
     },
     createToken: function createToken() {
         return _jsonwebtoken2.default.sign({

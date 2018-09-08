@@ -78,7 +78,7 @@ var LoginUser = exports.LoginUser = function () {
           case 4:
             user = _context2.sent;
 
-            if (user.isAuthenticated) {
+            if (user.isAuthenticated(password)) {
               res.status(201).json(user.toAuthJSON());
             } else {
               res.status(500).json({
@@ -91,7 +91,7 @@ var LoginUser = exports.LoginUser = function () {
           case 8:
             _context2.prev = 8;
             _context2.t0 = _context2['catch'](1);
-            return _context2.abrupt('return', res.status(500).json(_context2.t0));
+            return _context2.abrupt('return', res.status(422).json(_context2.t0));
 
           case 11:
           case 'end':

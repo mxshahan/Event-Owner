@@ -32,13 +32,22 @@ var _expressFileupload = require('express-fileupload');
 
 var _expressFileupload2 = _interopRequireDefault(_expressFileupload);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _config = require('../config/config');
 
-// import session from 'express-session';
+var _config2 = _interopRequireDefault(_config);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var env = process.env.NODE_ENV;
 
 // const ENV = "development"
+
+// import session from 'express-session';
+var corsOption = {
+    origin: function origin(_origin, callback) {
+        _config2.default.FRONTEND_URL.indexOf(_origin) !== -1 ? callback(null, true) : callback(new Error('Not allowed by CORS'));
+    }
+};
 
 exports.default = function (app) {
     if (env.includes('production')) {
@@ -50,7 +59,7 @@ exports.default = function (app) {
         //   name: 'sessionId'
         // }))
     }
-    app.use((0, _cors2.default)());
+    app.use((0, _cors2.default)(corsOption));
     app.use(_bodyParser2.default.json());
     app.use(_bodyParser2.default.urlencoded({ extended: true }));
     app.use((0, _expressFileupload2.default)());
