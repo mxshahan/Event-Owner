@@ -278,12 +278,21 @@ var checkUser = exports.checkUser = function () {
 
 var fileUpload = exports.fileUpload = function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
+    var singleUser, profile_picture;
     return _regenerator2.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
           case 0:
             _context7.prev = 0;
             _context7.next = 3;
+            return _user.userCrud.single({
+              qr: req.user._id
+            });
+
+          case 3:
+            singleUser = _context7.sent;
+            profile_picture = singleuser.profile_picture;
+            _context7.next = 7;
             return _user.userCrud.put({
               params: {
                 qr: {
@@ -296,26 +305,36 @@ var fileUpload = exports.fileUpload = function () {
               }
             });
 
-          case 3:
+          case 7:
             user = _context7.sent;
+            _context7.t0 = profile_picture;
 
+            if (!_context7.t0) {
+              _context7.next = 12;
+              break;
+            }
+
+            _context7.next = 12;
+            return fileDelete(profile_picture);
+
+          case 12:
 
             res.status(200).json(user);
-            _context7.next = 10;
+            _context7.next = 18;
             break;
 
-          case 7:
-            _context7.prev = 7;
-            _context7.t0 = _context7['catch'](0);
+          case 15:
+            _context7.prev = 15;
+            _context7.t1 = _context7['catch'](0);
 
-            res.status(422).json(_context7.t0);
+            res.status(422).json(_context7.t1);
 
-          case 10:
+          case 18:
           case 'end':
             return _context7.stop();
         }
       }
-    }, _callee7, undefined, [[0, 7]]);
+    }, _callee7, undefined, [[0, 15]]);
   }));
 
   return function fileUpload(_x13, _x14) {

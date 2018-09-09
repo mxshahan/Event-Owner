@@ -68,7 +68,6 @@ var createInvoice = exports.createInvoice = function () {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            console.log('api', req.body);
             // register to demo.ezcount.co.il to get your own test keys
             api_key = '4c4b3fd224e0943891588ea5a70d6cb566af3a5b4d506908ca04b30526234551';
             api_email = 'demo@ezcount.co.il';
@@ -112,7 +111,7 @@ var createInvoice = exports.createInvoice = function () {
             };
             _request2.default.post(url, { form: data, json: true }, function (error, response, body) {
               if (!error && response.statusCode == 200) {
-                console.log(body); // Print the shortened url.
+                // console.log(body) // Print the shortened url.
                 res.status(200).json(body);
               } else {
                 console.error("Failed");
@@ -120,7 +119,7 @@ var createInvoice = exports.createInvoice = function () {
               }
             });
 
-          case 8:
+          case 7:
           case 'end':
             return _context2.stop();
         }

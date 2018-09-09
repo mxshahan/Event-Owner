@@ -41,13 +41,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var env = process.env.NODE_ENV;
 
 // const ENV = "development"
+// const corsOption = {
+//   origin: (origin, callback) => {
+//     (config.FRONTEND_URL.indexOf(origin) !== -1) ? callback(null, true) : callback(new Error('Not allowed by CORS'));
+//   }
+// }
 
 // import session from 'express-session';
-var corsOption = {
-    origin: function origin(_origin, callback) {
-        _config2.default.FRONTEND_URL.indexOf(_origin) !== -1 ? callback(null, true) : callback(new Error('Not allowed by CORS'));
-    }
-};
 
 exports.default = function (app) {
     if (env.includes('production')) {
@@ -59,7 +59,8 @@ exports.default = function (app) {
         //   name: 'sessionId'
         // }))
     }
-    app.use((0, _cors2.default)(corsOption));
+    // app.use(cors(corsOption));
+    app.use((0, _cors2.default)());
     app.use(_bodyParser2.default.json());
     app.use(_bodyParser2.default.urlencoded({ extended: true }));
     app.use((0, _expressFileupload2.default)());

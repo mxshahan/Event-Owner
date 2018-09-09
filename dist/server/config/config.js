@@ -14,9 +14,9 @@ var STRIPE_SECRET_KEY = process.env.NODE_ENV.includes('production') ? 'sk_test_u
 var stripeConfig = (0, _stripe2.default)(STRIPE_SECRET_KEY);
 
 var DEV_URL = ['http://127.0.0.1:8080', 'http://localhost:8080', 'http://127.0.0.1:3000', 'http://localhost:3000'];
-var PROD_URL = ['https://event-owner.herokuapp.com/', 'http://event-owner.herokuapp.com/'];
+var PROD_URL = ['https://event-owner.herokuapp.com', 'http://event-owner.herokuapp.com', 'http://127.0.0.1:3000'];
 
-var FRONTEND_URL = process.env.NODE_ENV.includes('production') ? PROD_URL : DEV_URL;
+var FRONTEND_URL = process.env.NODE_ENV === 'production' ? PROD_URL : DEV_URL;
 
 // Invoice data
 
