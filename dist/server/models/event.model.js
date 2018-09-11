@@ -62,7 +62,8 @@ var eventSchema = new _mongoose2.default.Schema({
         type: String
     }],
     gifts: [{
-        type: Number
+        type: _mongoose2.default.Schema.Types.ObjectId,
+        ref: 'paymentModel'
     }],
     qrCode: {
         type: String

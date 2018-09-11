@@ -31,16 +31,17 @@ var paymentSchema = new _mongoose2.default.Schema({
         required: true
     },
     phone: {
-        type: Number,
-        required: true
+        type: String
+    },
+    gift_amount: {
+        type: Number
     },
     trxid: {
-        type: Date,
-        required: true
+        type: String
     },
-    paymentID: {
+    eventId: {
         type: _mongoose2.default.Schema.Types.ObjectId,
-        ref: 'paymentModel'
+        ref: 'eventModel'
     },
     description: {
         type: String

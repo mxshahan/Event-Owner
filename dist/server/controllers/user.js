@@ -13,6 +13,8 @@ var _user = require('../models/user.model');
 
 var _shortid = require('shortid');
 
+var _file = require('../mid/file');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -278,7 +280,7 @@ var checkUser = exports.checkUser = function () {
 
 var fileUpload = exports.fileUpload = function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
-    var singleUser, profile_picture;
+    var singleUser, filePath, fileName;
     return _regenerator2.default.wrap(function _callee7$(_context7) {
       while (1) {
         switch (_context7.prev = _context7.next) {
@@ -286,13 +288,14 @@ var fileUpload = exports.fileUpload = function () {
             _context7.prev = 0;
             _context7.next = 3;
             return _user.userCrud.single({
-              qr: req.user._id
+              qr: {
+                _id: req.user._id
+              }
             });
 
           case 3:
             singleUser = _context7.sent;
-            profile_picture = singleuser.profile_picture;
-            _context7.next = 7;
+            _context7.next = 6;
             return _user.userCrud.put({
               params: {
                 qr: {
@@ -305,17 +308,18 @@ var fileUpload = exports.fileUpload = function () {
               }
             });
 
-          case 7:
+          case 6:
             user = _context7.sent;
-            _context7.t0 = profile_picture;
+            filePath = singleUser.profile_picture;
 
-            if (!_context7.t0) {
+            if (!filePath) {
               _context7.next = 12;
               break;
             }
 
+            fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
             _context7.next = 12;
-            return fileDelete(profile_picture);
+            return (0, _file.fileDelete)(fileName);
 
           case 12:
 
@@ -325,9 +329,9 @@ var fileUpload = exports.fileUpload = function () {
 
           case 15:
             _context7.prev = 15;
-            _context7.t1 = _context7['catch'](0);
+            _context7.t0 = _context7['catch'](0);
 
-            res.status(422).json(_context7.t1);
+            res.status(422).json(_context7.t0);
 
           case 18:
           case 'end':

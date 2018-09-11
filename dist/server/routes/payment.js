@@ -22,4 +22,7 @@ router.route('/checkout').options((0, _cors2.default)()).post(_payment.checkoutO
 
 router.route('/invoice').options((0, _cors2.default)()).post(_payment.createInvoice);
 
+// Saving Payment Data To Database
+router.route('/setdata/:id').options((0, _cors2.default)()).post(_payment.setPaymentData);
+
 exports.default = router;
