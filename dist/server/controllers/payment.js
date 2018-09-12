@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setPaymentData = exports.createInvoice = exports.checkoutOnEvent = undefined;
+exports.createInvoice = exports.checkoutOnEvent = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -11,7 +11,7 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 
 var _payment = require('../models/payment.model');
 
-var _event = require('../models/event.model');
+var _payment2 = _interopRequireDefault(_payment);
 
 var _config = require('../config/config');
 
@@ -129,66 +129,5 @@ var createInvoice = exports.createInvoice = function () {
 
   return function createInvoice(_x3, _x4) {
     return _ref2.apply(this, arguments);
-  };
-}();
-
-var setPaymentData = exports.setPaymentData = function () {
-  var _ref3 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee3(req, res) {
-    var payment_info, events;
-    return _regenerator2.default.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            payment_info = void 0, events = void 0;
-            _context3.prev = 1;
-            _context3.next = 4;
-            return _event.eventModel.findOne({ _id: req.body.eventId });
-
-          case 4:
-            events = _context3.sent;
-
-            if (!events) {
-              _context3.next = 13;
-              break;
-            }
-
-            _context3.next = 8;
-            return _payment.paymentCrud.create(req.body);
-
-          case 8:
-            payment_info = _context3.sent;
-
-            events.gifts.push(payment_info._id);
-            events.save();
-            _context3.next = 14;
-            break;
-
-          case 13:
-            res.status(404).json({ msg: 'No Event Found' });
-
-          case 14:
-
-            res.status(200).json(payment_info);
-            _context3.next = 20;
-            break;
-
-          case 17:
-            _context3.prev = 17;
-            _context3.t0 = _context3['catch'](1);
-
-            res.status(422).json({
-              success: false
-            });
-
-          case 20:
-          case 'end':
-            return _context3.stop();
-        }
-      }
-    }, _callee3, undefined, [[1, 17]]);
-  }));
-
-  return function setPaymentData(_x5, _x6) {
-    return _ref3.apply(this, arguments);
   };
 }();

@@ -25,11 +25,11 @@ require('./config/db');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import dbCreate from './config/create';
+var port = process.env.PORT || 3000;
+var app = (0, _express2.default)();
+
 var clientPath = _path2.default.resolve(__dirname, '../../dist/client');
 var publicPath = _path2.default.resolve(__dirname, '../../public');
-var port = process.env.PORT || 3000;
-
-var app = (0, _express2.default)();
 
 app.use(_express2.default.static(publicPath));
 

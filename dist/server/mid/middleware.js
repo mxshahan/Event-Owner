@@ -50,7 +50,7 @@ var env = process.env.NODE_ENV;
 // import session from 'express-session';
 
 exports.default = function (app) {
-    if (env === 'production') {
+    if (env.includes('production')) {
         app.use((0, _compression2.default)());
         app.use((0, _helmet2.default)());
         app.set('trust proxy', 1); // trust first proxy
@@ -65,7 +65,7 @@ exports.default = function (app) {
     app.use(_bodyParser2.default.urlencoded({ extended: true }));
     app.use((0, _expressFileupload2.default)());
     // app.use(passport.initialize());
-    if (env !== 'production') {
+    if (env.includes('development')) {
         app.use((0, _morgan2.default)('dev'));
     }
 };
