@@ -9,9 +9,9 @@
     "prebuild": "rimraf dist",
     "build": "SET NODE_ENV=production&node bin/build&npm run client",
     "client": "SET NODE_ENV=production&webpack --config webpack.prod.js",
-    "start": "SET NODE_ENV=production&node dist/server/app",
     "dev-server": "SET NODE_ENV=development&webpack-dev-server --config webpack.dev.js --open --progress -w",
-    "test": "snyk test"
+    "test": "snyk test",
+    "start": "SET NODE_ENV=production&node dist/server/app"
   },
   "dependencies": {
     "axios": "^0.18.0",
