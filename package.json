@@ -4,13 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "SET NODE_ENV=development&nodemon bin/dev",
-    "start-dev": "SET NODE_ENV=development&node bin/dev",
-    "prebuild": "rimraf dist",
-    "build": "SET NODE_ENV=production&node bin/build&npm run client",
-    "client": "SET NODE_ENV=production&webpack --config webpack.prod.js",
-    "dev-server": "SET NODE_ENV=development&webpack-dev-server --config webpack.dev.js --open --progress -w",
-    "test": "snyk test",
     "start": "SET NODE_ENV=production&node dist/server/app"
   },
   "dependencies": {
