@@ -4,7 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node dist/server/app"
+    "dev": "SET NODE_ENV=development&nodemon bin/dev",
+    "start-dev": "SET NODE_ENV=development&node bin/dev",
+    "prebuild": "rimraf dist",
+    "build": "SET NODE_ENV=production&node bin/build&npm run client",
+    "client": "SET NODE_ENV=production&webpack --config webpack.prod.js --progress",
+    "dev-server": "SET NODE_ENV=development&webpack-dev-server --config webpack.dev.js --open --progress -w",
+    "test": "snyk test",
+    "start": "SET NODE_ENV=production& node bin/prod"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -50,6 +57,7 @@
     "react-validation": "^3.0.7",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
+    "request": "^2.88.0",
     "shortid": "^2.2.13",
     "stripe": "^6.10.0",
     "superagent": "^3.8.3",
