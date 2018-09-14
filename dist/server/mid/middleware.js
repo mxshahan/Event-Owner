@@ -51,7 +51,7 @@ exports.default = function (app) {
     app.use(_bodyParser2.default.urlencoded({ extended: true }));
     app.use((0, _expressFileupload2.default)());
     // app.use(passport.initialize());
-    if (!process.env.NODE_ENV.includes('production')) {
+    if (process.env.NODE_ENV.includes('development')) {
         app.use((0, _morgan2.default)('dev'));
     }
 };

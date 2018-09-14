@@ -29,7 +29,7 @@ require('./config/db');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import dbCreate from './config/create';
-var port = process.env.PORT || 3001;
+var port = process.env.PORT || 3000;
 var app = (0, _express2.default)();
 
 var clientPath = _path2.default.resolve(__dirname, '../../dist/client');
