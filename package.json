@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "SET NODE_ENV=production&node dist/server/app"
+    "start": "node dist/server/app"
   },
   "dependencies": {
     "axios": "^0.18.0",
