@@ -131,9 +131,7 @@ var updateEvent = exports.updateEvent = function () {
                     case 3:
                         events = _context3.sent;
 
-                        res.status(201).json({
-                            success: true
-                        });
+                        res.status(201).json(events);
                         _context3.next = 10;
                         break;
 
