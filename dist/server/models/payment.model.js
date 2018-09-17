@@ -36,6 +36,12 @@ var paymentSchema = new _mongoose2.default.Schema({
     gift_amount: {
         type: Number
     },
+    total_fee: {
+        type: Number
+    },
+    total_amount: {
+        type: Number
+    },
     trxid: {
         type: String
     },

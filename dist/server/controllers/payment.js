@@ -93,20 +93,19 @@ var createInvoice = exports.createInvoice = function () {
                 catalog_number: req.body.success.created,
                 details: req.body.success.description,
                 amount: 1,
-                price: req.body.success.amount / 100,
+                price: req.body.fee,
                 //this price include the VAT
                 vat_type: "PRE"
               }],
               payment: [{
                 // bank transfer
                 payment_type: 4,
-                payment: req.body.success.amount / 100,
+                payment: req.body.fee,
                 comment: 'Transaction number is ' + req.body.success.balance_transaction
               }],
               // THIS IS A MUST ONLY IN INVOICE RECIEPT
-              price_total: req.body.success.amount / 100,
+              price_total: req.body.fee,
               comment: "some general comment for the document"
-
               // actual send request for creating invoice
             };
             _request2.default.post(url, { form: data, json: true }, function (error, response, body) {
