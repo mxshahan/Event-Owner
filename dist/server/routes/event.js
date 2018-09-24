@@ -30,8 +30,10 @@ router.route('/create').options((0, _cors2.default)()).post((0, _validateInput.v
 
 router.route('/MY_EVENTS').options((0, _cors2.default)()).get(_auth.isAuth, _event.getEvent);
 
+router.route('/get_by_type').options((0, _cors2.default)()).get(_auth.isAuth, _event.getEventByType);
+
 router.route('/:id').get(_event.getSingleEvent).options((0, _cors2.default)()).put(_auth.isAuth, _event.updateEvent).delete(_auth.isAuth, _event.deleteEvent);
 
-router.route('/upload').options((0, _cors2.default)()).post(_auth.isAuth, _file.fileUploadMiddlware, _event.fileUploadEvent);
+router.route('/upload').options((0, _cors2.default)()).post(_file.fileUploadMiddlware, _event.fileUploadEvent);
 
 exports.default = router;

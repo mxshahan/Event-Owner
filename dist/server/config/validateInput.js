@@ -54,6 +54,7 @@ var schemas = exports.schemas = {
         firstname: _joi2.default.string().required(),
         lastname: _joi2.default.string().required(),
         phone: _joi2.default.string(),
+        personal_id: _joi2.default.string(),
         acc_type: _joi2.default.string(),
         events: _joi2.default.array(),
         gifts: _joi2.default.array()

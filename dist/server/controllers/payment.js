@@ -106,6 +106,7 @@ var createInvoice = exports.createInvoice = function () {
               // THIS IS A MUST ONLY IN INVOICE RECIEPT
               price_total: req.body.fee,
               comment: "some general comment for the document"
+
               // actual send request for creating invoice
             };
             _request2.default.post(url, { form: data, json: true }, function (error, response, body) {
@@ -159,7 +160,8 @@ var setPaymentData = exports.setPaymentData = function () {
 
             events.gifts.push(payment_info._id);
             events.save();
-            res.status(200).json(payment_info);
+            res.status(200).end();
+            // res.status(200).json(payment_info);
             _context3.next = 15;
             break;
 

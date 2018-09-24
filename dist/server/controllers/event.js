@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.fileUploadEvent = exports.getSingleEvent = exports.getEvent = exports.deleteEvent = exports.updateEvent = exports.createEvent = exports.getAllEvent = undefined;
+exports.fileUploadEvent = exports.getSingleEvent = exports.getEventByType = exports.getEvent = exports.deleteEvent = exports.updateEvent = exports.createEvent = exports.getAllEvent = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -219,7 +219,8 @@ var getEvent = exports.getEvent = function () {
                         return _event.eventCrud.get({
                             qr: {
                                 author: req.user._id
-                            }
+                            },
+                            populate: 'gifts'
                         });
 
                     case 3:
@@ -250,14 +251,60 @@ var getEvent = exports.getEvent = function () {
     };
 }();
 
-var getSingleEvent = exports.getSingleEvent = function () {
+// Get My Event By Type
+var getEventByType = exports.getEventByType = function () {
     var _ref6 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee6(req, res) {
         return _regenerator2.default.wrap(function _callee6$(_context6) {
             while (1) {
                 switch (_context6.prev = _context6.next) {
                     case 0:
-                        _context6.prev = 0;
-                        _context6.next = 3;
+                        console.log(req.headers.type);
+                        _context6.prev = 1;
+                        _context6.next = 4;
+                        return _event.eventCrud.get({
+                            qr: {
+                                author: req.user._id,
+                                type: req.headers.type
+                            },
+                            populate: 'gifts'
+                        });
+
+                    case 4:
+                        events = _context6.sent;
+
+                        res.status(201).json(events);
+                        _context6.next = 11;
+                        break;
+
+                    case 8:
+                        _context6.prev = 8;
+                        _context6.t0 = _context6['catch'](1);
+
+                        res.status(422).json({
+                            success: false
+                        });
+
+                    case 11:
+                    case 'end':
+                        return _context6.stop();
+                }
+            }
+        }, _callee6, undefined, [[1, 8]]);
+    }));
+
+    return function getEventByType(_x11, _x12) {
+        return _ref6.apply(this, arguments);
+    };
+}();
+
+var getSingleEvent = exports.getSingleEvent = function () {
+    var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
+            while (1) {
+                switch (_context7.prev = _context7.next) {
+                    case 0:
+                        _context7.prev = 0;
+                        _context7.next = 3;
                         return _event.eventCrud.single({
                             qr: {
                                 _id: req.params.id
@@ -269,15 +316,15 @@ var getSingleEvent = exports.getSingleEvent = function () {
                         });
 
                     case 3:
-                        events = _context6.sent;
+                        events = _context7.sent;
 
                         res.status(201).json(events);
-                        _context6.next = 10;
+                        _context7.next = 10;
                         break;
 
                     case 7:
-                        _context6.prev = 7;
-                        _context6.t0 = _context6['catch'](0);
+                        _context7.prev = 7;
+                        _context7.t0 = _context7['catch'](0);
 
                         res.status(422).json({
                             success: false
@@ -285,22 +332,22 @@ var getSingleEvent = exports.getSingleEvent = function () {
 
                     case 10:
                     case 'end':
-                        return _context6.stop();
+                        return _context7.stop();
                 }
             }
-        }, _callee6, undefined, [[0, 7]]);
+        }, _callee7, undefined, [[0, 7]]);
     }));
 
-    return function getSingleEvent(_x11, _x12) {
-        return _ref6.apply(this, arguments);
+    return function getSingleEvent(_x13, _x14) {
+        return _ref7.apply(this, arguments);
     };
 }();
 
 var fileUploadEvent = exports.fileUploadEvent = function () {
-    var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+    var _ref8 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee8(req, res) {
+        return _regenerator2.default.wrap(function _callee8$(_context8) {
             while (1) {
-                switch (_context7.prev = _context7.next) {
+                switch (_context8.prev = _context8.next) {
                     case 0:
                         console.log(req.filePath);
                         res.status(201).json({
@@ -310,14 +357,14 @@ var fileUploadEvent = exports.fileUploadEvent = function () {
 
                     case 2:
                     case 'end':
-                        return _context7.stop();
+                        return _context8.stop();
                 }
             }
-        }, _callee7, undefined);
+        }, _callee8, undefined);
     }));
 
-    return function fileUploadEvent(_x13, _x14) {
-        return _ref7.apply(this, arguments);
+    return function fileUploadEvent(_x15, _x16) {
+        return _ref8.apply(this, arguments);
     };
 }();
 

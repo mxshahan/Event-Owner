@@ -57,6 +57,9 @@ var userSchema = new _mongoose2.default.Schema({
     phone: {
         type: String
     },
+    personal_id: {
+        type: String
+    },
     acc_type: {
         type: String,
         default: 'ordinary'

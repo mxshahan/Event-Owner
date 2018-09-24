@@ -21,7 +21,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // import uniqueValidator from 'mongoose-unique-validator';
 var paymentSchema = new _mongoose2.default.Schema({
-    name: {
+    firstname: {
+        type: String,
+        required: true,
+        default: 'No Name'
+    },
+    lastname: {
         type: String,
         required: true,
         default: 'No Name'
@@ -51,6 +56,9 @@ var paymentSchema = new _mongoose2.default.Schema({
     },
     description: {
         type: String
+    },
+    wishes: {
+        type: Object
     }
 });
 
