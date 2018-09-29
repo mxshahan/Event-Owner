@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.userCrud = exports.userModel = undefined;
+exports.adminCrud = exports.adminModel = undefined;
 
 var _mongoose = require('mongoose');
 
@@ -33,11 +33,8 @@ var _config2 = _interopRequireDefault(_config);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var userSchema = new _mongoose2.default.Schema({
-    firstname: {
-        type: String
-    },
-    lastname: {
+var adminSchema = new _mongoose2.default.Schema({
+    name: {
         type: String
     },
     username: {
@@ -57,34 +54,47 @@ var userSchema = new _mongoose2.default.Schema({
     phone: {
         type: String
     },
-    personal_id: {
-        type: String
-    },
-    acc_type: {
+    type: {
         type: String,
-        default: 'ordinary'
+        default: 'admin'
     },
     profile_picture: {
         type: String
     },
-    events: [{
+    charges: {
+        paypal: {
+            type: Number
+        },
+        credit_card: {
+            type: Number
+        },
+        pepper_pay: {
+            type: Number
+        },
+        bit: {
+            type: Number
+        },
+        paybox: {
+            type: Number
+        }
+    },
+    terms_and_condition: {
+        type: String
+    },
+    faq: [{
         type: _mongoose2.default.Schema.Types.ObjectId,
-        ref: 'eventModel'
-    }],
-    gifts: [{
-        type: _mongoose2.default.Schema.Types.ObjectId,
-        ref: 'eventModel'
+        ref: 'faqModel'
     }]
 });
 
-userSchema.pre('save', function (next) {
+adminSchema.pre('save', function (next) {
     if (this.isModified('password')) {
         this.password = this._hashPassword(this.password);
         return next();
     }
     return next();
 });
-userSchema.methods = {
+adminSchema.methods = {
     _hashPassword: function _hashPassword(password) {
         return (0, _bcryptjs.hashSync)(password);
     },
@@ -95,7 +105,7 @@ userSchema.methods = {
         return _jsonwebtoken2.default.sign({
             _id: this._id,
             acc_type: this.acc_type,
-            username: this.username
+            adminname: this.adminname
         }, _config2.default.secret);
     },
     toAuthJSON: function toAuthJSON() {
@@ -105,21 +115,13 @@ userSchema.methods = {
             token: 'JWT ' + this.createToken()
         };
     }
-
-    // toJSON() {
-    //     return {
-    //         _id: this._id,
-    //         username: this.username,
-    //     }
-    // }
-
 };
 
-userSchema.plugin(_mongooseUniqueValidator2.default);
-userSchema.plugin(_mongooseTimestamp2.default);
+adminSchema.plugin(_mongooseUniqueValidator2.default);
+adminSchema.plugin(_mongooseTimestamp2.default);
 
-var userModel = _mongoose2.default.model('userModel', userSchema);
-var userCrud = new _crud2.default(userModel);
+var adminModel = _mongoose2.default.model('adminModel', adminSchema);
+var adminCrud = new _crud2.default(adminModel);
 
-exports.userModel = userModel;
-exports.userCrud = userCrud;
+exports.adminModel = adminModel;
+exports.adminCrud = adminCrud;

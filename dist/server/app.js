@@ -45,6 +45,7 @@ app.set('env', process.env.NODE_ENV);
 // Error Handler
 // errorHandler(app);
 
+
 // Static Director
 app.use('/client', _express2.default.static(clientPath));
 app.use((0, _expressHistoryApiFallback2.default)('index.html', { root: publicPath }));
