@@ -94,14 +94,14 @@ userSchema.methods = {
     createToken: function createToken() {
         return _jsonwebtoken2.default.sign({
             _id: this._id,
-            acc_type: this.acc_type,
+            accType: this.acc_type,
             username: this.username
         }, _config2.default.secret);
     },
     toAuthJSON: function toAuthJSON() {
         return {
             success: true,
-            acc_type: this.acc_type,
+            accType: this.acc_type,
             token: 'JWT ' + this.createToken()
         };
     }

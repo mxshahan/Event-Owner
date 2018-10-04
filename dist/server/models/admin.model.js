@@ -62,29 +62,25 @@ var adminSchema = new _mongoose2.default.Schema({
         type: String
     },
     charges: {
-        paypal: {
-            type: Number
-        },
-        credit_card: {
-            type: Number
-        },
-        pepper_pay: {
-            type: Number
-        },
-        bit: {
-            type: Number
-        },
-        paybox: {
-            type: Number
-        }
+        type: _mongoose2.default.Schema.Types.ObjectId,
+        ref: 'chargesModel'
     },
-    terms_and_condition: {
-        type: String
+    terms: {
+        type: _mongoose2.default.Schema.Types.ObjectId,
+        ref: 'termsModel'
     },
     faq: [{
         type: _mongoose2.default.Schema.Types.ObjectId,
         ref: 'faqModel'
-    }]
+    }],
+    mailto: {
+        type: _mongoose2.default.Schema.Types.ObjectId,
+        ref: 'mailtoModel'
+    },
+    contact_info: {
+        type: _mongoose2.default.Schema.Types.ObjectId,
+        ref: 'contactInfoModel'
+    }
 });
 
 adminSchema.pre('save', function (next) {
@@ -104,14 +100,14 @@ adminSchema.methods = {
     createToken: function createToken() {
         return _jsonwebtoken2.default.sign({
             _id: this._id,
-            acc_type: this.acc_type,
-            adminname: this.adminname
+            type: this.type,
+            username: this.username
         }, _config2.default.secret);
     },
     toAuthJSON: function toAuthJSON() {
         return {
             success: true,
-            acc_type: this.acc_type,
+            accType: this.type,
             token: 'JWT ' + this.createToken()
         };
     }

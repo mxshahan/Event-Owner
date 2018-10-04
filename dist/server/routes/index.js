@@ -20,6 +20,10 @@ var _payment = require('./payment');
 
 var _payment2 = _interopRequireDefault(_payment);
 
+var _admin = require('./admin');
+
+var _admin2 = _interopRequireDefault(_admin);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (app) {
@@ -27,4 +31,5 @@ exports.default = function (app) {
   app.use('/api/event', _event2.default);
   app.use('/api/contact', _contact2.default);
   app.use('/api/payment', _payment2.default);
+  app.use('/api/admin', _admin2.default);
 };

@@ -32,19 +32,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var port = process.env.PORT || 3000;
 var app = (0, _express2.default)();
 
-var clientPath = _path2.default.resolve(__dirname, '../../dist/client');
-var publicPath = _path2.default.resolve(__dirname, '../../public');
-
-app.use(_express2.default.static(publicPath));
-app.set('env', process.env.NODE_ENV);
-
 // Middlewares
 (0, _middleware2.default)(app);
 // Api Router
 (0, _routes2.default)(app);
 // Error Handler
 // errorHandler(app);
+var clientPath = _path2.default.resolve(__dirname, '../../dist/client');
+var publicPath = _path2.default.resolve(__dirname, '../../public');
 
+app.use(_express2.default.static(publicPath));
+app.set('env', process.env.NODE_ENV);
 
 // Static Director
 app.use('/client', _express2.default.static(clientPath));
