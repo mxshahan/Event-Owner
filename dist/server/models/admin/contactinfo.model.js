@@ -32,6 +32,9 @@ var contactInfoSchema = new _mongoose2.default.Schema({
     },
     message: {
         type: String
+    },
+    address: {
+        type: String
     }
 });
 

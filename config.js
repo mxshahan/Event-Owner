@@ -1,5 +1,5 @@
 const api = {
-    server: process.env.NODE_ENV === 'production' ? '' : 'http://127.0.0.1:3000',
+    server: process.env.NODE_ENV === 'production' ? '' : window.location.protocol + '//' + window.location.hostname + ':3000',
     dev: 'http://127.0.0.1:3000',
     siteurl: 'http://127.0.0.1:3000',
     events: {
