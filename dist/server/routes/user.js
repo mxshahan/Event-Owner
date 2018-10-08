@@ -27,7 +27,7 @@ var router = (0, _expressPromiseRouter2.default)();
 
 router.route('/login').options((0, _cors2.default)()).post(_user.LoginUser);
 router.route('/create').options((0, _cors2.default)()).post(_user.createUser);
-router.route('/me').get(_auth.isAuth, _user.getUser);
+router.route('/me/:username').get(_user.getUser);
 router.route('/check').options((0, _cors2.default)()).get(_user.checkUser);
 router.route('/all').options((0, _cors2.default)()).get(_user.getAllUser);
 router.route('/upload').options((0, _cors2.default)()).post(_auth.isAuth, _file.fileUploadMiddlware, _user.fileUpload);

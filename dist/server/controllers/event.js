@@ -13,6 +13,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _event = require('../models/event.model');
 
+var _user = require('../models/user.model');
+
 var _file = require('../mid/file');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -67,7 +69,7 @@ var getAllEvent = exports.getAllEvent = function () {
 // Event Create
 var createEvent = exports.createEvent = function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee2(req, res) {
-        var data;
+        var data, user;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
             while (1) {
                 switch (_context2.prev = _context2.next) {
@@ -81,14 +83,20 @@ var createEvent = exports.createEvent = function () {
 
                     case 4:
                         events = _context2.sent;
+                        _context2.next = 7;
+                        return _user.userModel.findOne({ _id: data.author });
 
-                        // console.log(events);
+                    case 7:
+                        user = _context2.sent;
+
+                        user.events.push(events);
+                        user.save();
                         res.status(201).json(events);
-                        _context2.next = 11;
+                        _context2.next = 16;
                         break;
 
-                    case 8:
-                        _context2.prev = 8;
+                    case 13:
+                        _context2.prev = 13;
                         _context2.t0 = _context2['catch'](1);
 
                         res.status(500).json({
@@ -96,12 +104,12 @@ var createEvent = exports.createEvent = function () {
                             error: _context2.t0
                         });
 
-                    case 11:
+                    case 16:
                     case 'end':
                         return _context2.stop();
                 }
             }
-        }, _callee2, undefined, [[1, 8]]);
+        }, _callee2, undefined, [[1, 13]]);
     }));
 
     return function createEvent(_x3, _x4) {

@@ -102,6 +102,7 @@ userSchema.methods = {
         return {
             success: true,
             accType: this.acc_type,
+            username: this.username,
             token: 'JWT ' + this.createToken()
         };
     }

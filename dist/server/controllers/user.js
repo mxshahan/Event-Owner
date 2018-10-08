@@ -196,15 +196,13 @@ var getUser = exports.getUser = function () {
             _context5.prev = 0;
             _context5.next = 3;
             return _user.userModel.findOne({
-              username: req.user.username
-            }).select('-password -events -gifts');
+              username: req.params.username
+            }).select('-password').populate('events');
 
           case 3:
             user = _context5.sent;
 
-            res.status(201).json({
-              user: user
-            });
+            res.status(201).json(user);
             _context5.next = 10;
             break;
 
