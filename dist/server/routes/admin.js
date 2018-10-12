@@ -26,6 +26,8 @@ var router = (0, _expressPromiseRouter2.default)();
 // router.route('/')
 // .get(getAllAdmin)
 
+router.route('/count').options((0, _cors2.default)()).get(_auth.isAuth, _admin.getAllCount);
+
 router.route('/login').options((0, _cors2.default)()).post(_admin.loginAdmin);
 
 router.route('/create').options((0, _cors2.default)()).post(_admin.getAdmin, _admin.createAdmin);

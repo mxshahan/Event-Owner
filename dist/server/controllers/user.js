@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fileUpload = exports.checkUser = exports.getUser = exports.updateUser = exports.createUser = exports.LoginUser = exports.getAllUser = undefined;
+exports.fileUpload = exports.checkUser = exports.deleteUser = exports.getUser = exports.updateUser = exports.createUser = exports.LoginUser = exports.getAllUser = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -225,17 +225,69 @@ var getUser = exports.getUser = function () {
   };
 }();
 
-var checkUser = exports.checkUser = function () {
+var deleteUser = exports.deleteUser = function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee6(req, res) {
-    var username;
     return _regenerator2.default.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            // console.log(req.headers.username);
-            username = req.headers.username;
+            if (!(req.user.type === 'admin')) {
+              _context6.next = 13;
+              break;
+            }
+
             _context6.prev = 1;
             _context6.next = 4;
+            return _user.userCrud.delete({
+              params: {
+                qr: { username: req.params.username }
+              }
+            });
+
+          case 4:
+            user = _context6.sent;
+
+            res.status(201).json(user);
+            _context6.next = 11;
+            break;
+
+          case 8:
+            _context6.prev = 8;
+            _context6.t0 = _context6['catch'](1);
+
+            res.status(500).json(_context6.t0);
+
+          case 11:
+            _context6.next = 14;
+            break;
+
+          case 13:
+            res.status(422).json({ msg: 'You have no rights' });
+
+          case 14:
+          case 'end':
+            return _context6.stop();
+        }
+      }
+    }, _callee6, undefined, [[1, 8]]);
+  }));
+
+  return function deleteUser(_x11, _x12) {
+    return _ref6.apply(this, arguments);
+  };
+}();
+
+var checkUser = exports.checkUser = function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
+    var username;
+    return _regenerator2.default.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            // console.log(req.headers.username);
+            username = req.headers.username;
+            _context7.prev = 1;
+            _context7.next = 4;
             return _user.userModel.findOne({
               $or: [{
                 'email': username
@@ -245,7 +297,7 @@ var checkUser = exports.checkUser = function () {
             });
 
           case 4:
-            user = _context6.sent;
+            user = _context7.sent;
 
             if (user) {
               res.status(202).json({
@@ -256,37 +308,37 @@ var checkUser = exports.checkUser = function () {
                 found: false
               });
             }
-            _context6.next = 11;
+            _context7.next = 11;
             break;
 
           case 8:
-            _context6.prev = 8;
-            _context6.t0 = _context6['catch'](1);
+            _context7.prev = 8;
+            _context7.t0 = _context7['catch'](1);
 
-            res.status(422).json(_context6.t0);
+            res.status(422).json(_context7.t0);
 
           case 11:
           case 'end':
-            return _context6.stop();
+            return _context7.stop();
         }
       }
-    }, _callee6, undefined, [[1, 8]]);
+    }, _callee7, undefined, [[1, 8]]);
   }));
 
-  return function checkUser(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function checkUser(_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }();
 
 var fileUpload = exports.fileUpload = function () {
-  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee8(req, res) {
     var singleUser, filePath, fileName;
-    return _regenerator2.default.wrap(function _callee7$(_context7) {
+    return _regenerator2.default.wrap(function _callee8$(_context8) {
       while (1) {
-        switch (_context7.prev = _context7.next) {
+        switch (_context8.prev = _context8.next) {
           case 0:
-            _context7.prev = 0;
-            _context7.next = 3;
+            _context8.prev = 0;
+            _context8.next = 3;
             return _user.userCrud.single({
               qr: {
                 _id: req.user._id
@@ -294,8 +346,8 @@ var fileUpload = exports.fileUpload = function () {
             });
 
           case 3:
-            singleUser = _context7.sent;
-            _context7.next = 6;
+            singleUser = _context8.sent;
+            _context8.next = 6;
             return _user.userCrud.put({
               params: {
                 qr: {
@@ -309,39 +361,39 @@ var fileUpload = exports.fileUpload = function () {
             });
 
           case 6:
-            user = _context7.sent;
+            user = _context8.sent;
             filePath = singleUser.profile_picture;
 
             if (!filePath) {
-              _context7.next = 12;
+              _context8.next = 12;
               break;
             }
 
             fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
-            _context7.next = 12;
+            _context8.next = 12;
             return (0, _file.fileDelete)(fileName);
 
           case 12:
 
             res.status(200).json(user);
-            _context7.next = 18;
+            _context8.next = 18;
             break;
 
           case 15:
-            _context7.prev = 15;
-            _context7.t0 = _context7['catch'](0);
+            _context8.prev = 15;
+            _context8.t0 = _context8['catch'](0);
 
-            res.status(422).json(_context7.t0);
+            res.status(422).json(_context8.t0);
 
           case 18:
           case 'end':
-            return _context7.stop();
+            return _context8.stop();
         }
       }
-    }, _callee7, undefined, [[0, 15]]);
+    }, _callee8, undefined, [[0, 15]]);
   }));
 
-  return function fileUpload(_x13, _x14) {
-    return _ref7.apply(this, arguments);
+  return function fileUpload(_x15, _x16) {
+    return _ref8.apply(this, arguments);
   };
 }();
