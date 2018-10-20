@@ -38,7 +38,10 @@ var getAllEvent = exports.getAllEvent = function () {
                     case 0:
                         _context.prev = 0;
                         _context.next = 3;
-                        return _event.eventCrud.get();
+                        return _event.eventCrud.get({
+                            select: '',
+                            populate: 'gifts'
+                        });
 
                     case 3:
                         events = _context.sent;
@@ -172,7 +175,26 @@ var deleteEvent = exports.deleteEvent = function () {
                 switch (_context4.prev = _context4.next) {
                     case 0:
                         _context4.prev = 0;
-                        _context4.next = 3;
+
+                        if (!(req.user.type === 'admin')) {
+                            _context4.next = 7;
+                            break;
+                        }
+
+                        _context4.next = 4;
+                        return _event.eventCrud.delete({
+                            params: {
+                                qr: { _id: req.params.id }
+                            }
+                        });
+
+                    case 4:
+                        events = _context4.sent;
+                        _context4.next = 10;
+                        break;
+
+                    case 7:
+                        _context4.next = 9;
                         return _event.eventCrud.delete({
                             params: {
                                 qr: {
@@ -182,32 +204,34 @@ var deleteEvent = exports.deleteEvent = function () {
                             }
                         });
 
-                    case 3:
+                    case 9:
                         events = _context4.sent;
-                        _context4.next = 6;
+
+                    case 10:
+                        _context4.next = 12;
                         return (0, _file.fileDelete)(events.thumbnail);
 
-                    case 6:
+                    case 12:
                         res.status(201).json({
                             success: true
                         });
-                        _context4.next = 12;
+                        _context4.next = 18;
                         break;
 
-                    case 9:
-                        _context4.prev = 9;
+                    case 15:
+                        _context4.prev = 15;
                         _context4.t0 = _context4['catch'](0);
 
                         res.status(422).json({
                             success: false
                         });
 
-                    case 12:
+                    case 18:
                     case 'end':
                         return _context4.stop();
                 }
             }
-        }, _callee4, undefined, [[0, 9]]);
+        }, _callee4, undefined, [[0, 15]]);
     }));
 
     return function deleteEvent(_x7, _x8) {

@@ -25,4 +25,6 @@ router.route('/invoice').options((0, _cors2.default)()).post(_payment.createInvo
 // Saving Payment Data To Database
 router.route('/setdata/:id').options((0, _cors2.default)()).post(_payment.setPaymentData);
 
+router.route('/clear_fund/:id').options((0, _cors2.default)()).get(_payment.ClearFund);
+
 exports.default = router;

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setPaymentData = exports.createInvoice = exports.checkoutOnEvent = undefined;
+exports.ClearFund = exports.setPaymentData = exports.createInvoice = exports.checkoutOnEvent = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -26,6 +26,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var stripe = _config2.default.stripe;
+
+// register to demo.ezcount.co.il to get your own test keys
+
+var api_key = '4c4b3fd224e0943891588ea5a70d6cb566af3a5b4d506908ca04b30526234551';
+var api_email = 'demo@ezcount.co.il';
+// DEVELOPER information, we will notify you for any API problem to this details
+var developer_email = 'applicationreact@gmail.com';
+var developer_phone = '008801752294542';
+
 var checkoutOnEvent = exports.checkoutOnEvent = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee(req, res) {
     return _regenerator2.default.wrap(function _callee$(_context) {
@@ -63,18 +72,11 @@ var checkoutOnEvent = exports.checkoutOnEvent = function () {
 
 var createInvoice = exports.createInvoice = function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee2(req, res) {
-    var api_key, api_email, developer_email, developer_phone, url, data;
+    var url, data;
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            // register to demo.ezcount.co.il to get your own test keys
-            api_key = '4c4b3fd224e0943891588ea5a70d6cb566af3a5b4d506908ca04b30526234551';
-            api_email = 'demo@ezcount.co.il';
-            // DEVELOPER information, we will notify you for any API problem to this details
-
-            developer_email = 'applicationreact@gmail.com';
-            developer_phone = '008801752294542';
             url = 'https://demo.ezcount.co.il/api/createDoc';
             data = {
               // CUSTOMER credentials
@@ -119,7 +121,7 @@ var createInvoice = exports.createInvoice = function () {
               }
             });
 
-          case 7:
+          case 3:
           case 'end':
             return _context2.stop();
         }
@@ -190,5 +192,43 @@ var setPaymentData = exports.setPaymentData = function () {
 
   return function setPaymentData(_x5, _x6) {
     return _ref3.apply(this, arguments);
+  };
+}();
+
+var ClearFund = exports.ClearFund = function () {
+  var _ref4 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee4(req, res) {
+    var url, data;
+    return _regenerator2.default.wrap(function _callee4$(_context4) {
+      while (1) {
+        switch (_context4.prev = _context4.next) {
+          case 0:
+            url = 'https://demo.ezcount.co.il/api/payment/prepareSafeUrl/clearingFormForWeb';
+            data = {
+              api_key: api_key,
+              developer_email: developer_email,
+              sum: 150,
+              successUrl: 'https%3A%2F%2Fexample.com%2Fsuccess'
+            };
+
+            _request2.default.post(url, { form: data, json: true }, function (error, response, body) {
+              if (!error && response.statusCode == 200) {
+                console.log(body); // Print the shortened url.
+                res.status(200).json(body);
+              } else {
+                console.error("Failed");
+                console.error(error, response);
+              }
+            });
+
+          case 3:
+          case 'end':
+            return _context4.stop();
+        }
+      }
+    }, _callee4, undefined);
+  }));
+
+  return function ClearFund(_x7, _x8) {
+    return _ref4.apply(this, arguments);
   };
 }();

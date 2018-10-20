@@ -66,8 +66,8 @@ var getAllCount = exports.getAllCount = function () {
                         count = 0;
                         _context.next = 13;
                         return gifts.map(function (gift) {
-                            if (gift.total_amount) {
-                                count = count + gift.total_amount;
+                            if (gift.total_fee) {
+                                count = count + gift.total_fee;
                             }
                             return count;
                         });

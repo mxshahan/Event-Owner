@@ -30,12 +30,11 @@ var getAllUser = exports.getAllUser = function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return _user.userCrud.get({
-              select: '-password'
-            });
+            return _user.userModel.find().select('-password').populate('events');
 
           case 3:
             users = _context.sent;
+
 
             res.status(200).json(users);
             _context.next = 10;

@@ -59,6 +59,10 @@ var paymentSchema = new _mongoose2.default.Schema({
     },
     wishes: {
         type: Object
+    },
+    approved: {
+        type: Boolean,
+        default: false
     }
 });
 

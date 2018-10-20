@@ -24,7 +24,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var router = (0, _expressPromiseRouter2.default)();
 
-router.route('/').get(_event.getAllEvent);
+router.route('/').get(_auth.isAuth, _event.getAllEvent);
 
 router.route('/create').options((0, _cors2.default)()).post((0, _validateInput.validateBody)(_validateInput.schemas.events), _auth.isAuth, _event.createEvent);
 
