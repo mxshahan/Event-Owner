@@ -109,6 +109,13 @@ userSchema.methods = {
             username: this.username,
             token: 'JWT ' + this.createToken()
         };
+    },
+    netBalance: function netBalance() {
+        var total = 0;
+        this.gifts.map(function (gift) {
+            total += gift.gift_amount;
+        });
+        return total;
     }
 
     // toJSON() {

@@ -11,11 +11,7 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 
 var _user = require('../models/user.model');
 
-var _shortid = require('shortid');
-
 var _file = require('../mid/file');
-
-var _withdrawal = require('../models/withdrawal.model');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

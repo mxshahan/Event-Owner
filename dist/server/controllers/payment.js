@@ -9,6 +9,8 @@ var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _payment = require('../models/payment.model');
 
 var _event = require('../models/event.model');
@@ -264,42 +266,61 @@ var reqWithdraw = exports.reqWithdraw = function () {
             if (req.user.type !== 'admin') delete req.body.approved;
             _context5.prev = 2;
             _context5.next = 5;
+            return _user.userModel.findOne({
+              _id: req.user._id
+            }).populate('gifts');
+
+          case 5:
+            user = _context5.sent;
+
+            if (!(req.body.amount <= user.netBalance())) {
+              _context5.next = 16;
+              break;
+            }
+
+            _context5.next = 9;
             return _withdrawal.withdrawalCrud.create({
               amount: req.body.amount,
               withdrawn_by: req.user._id
             });
 
-          case 5:
+          case 9:
             withdrawn = _context5.sent;
-            _context5.next = 8;
-            return _user.userModel.findOne({
-              _id: req.user._id
-            });
 
-          case 8:
-            user = _context5.sent;
 
             user.withdrawn.push(withdrawn);
-            _context5.next = 12;
+            _context5.next = 13;
             return user.save();
 
-          case 12:
-            res.status(200).json(withdrawn);
-            _context5.next = 18;
+          case 13:
+            res.status(200).json(_extends({
+              success: true
+            }, withdrawn._doc));
+            _context5.next = 17;
             break;
 
-          case 15:
-            _context5.prev = 15;
+          case 16:
+            res.status(203).json({
+              success: false,
+              msg: 'You have insufficient balance '
+            });
+
+          case 17:
+            _context5.next = 22;
+            break;
+
+          case 19:
+            _context5.prev = 19;
             _context5.t0 = _context5['catch'](2);
 
             res.status(422).json(_context5.t0);
 
-          case 18:
+          case 22:
           case 'end':
             return _context5.stop();
         }
       }
-    }, _callee5, undefined, [[2, 15]]);
+    }, _callee5, undefined, [[2, 19]]);
   }));
 
   return function reqWithdraw(_x9, _x10) {
