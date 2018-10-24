@@ -279,7 +279,7 @@ var reqWithdraw = exports.reqWithdraw = function () {
             }
 
             _context5.next = 9;
-            return _withdrawal.withdrawalCrud.create({
+            return _withdrawal.withdrawalModel.create({
               amount: req.body.amount,
               withdrawn_by: req.user._id
             });
@@ -338,13 +338,11 @@ var getWithdraw = exports.getWithdraw = function () {
             withdraw = void 0;
             _context6.prev = 1;
             _context6.next = 4;
-            return _withdrawal.withdrawalCrud.get({
+            return _withdrawal.withdrawalModel.find().populate({
+              path: 'withdrawn_by',
               populate: {
-                path: 'withdrawn_by',
-                populate: {
-                  path: '-password',
-                  model: 'userModel'
-                }
+                path: '-password',
+                model: 'userModel'
               }
             });
 
