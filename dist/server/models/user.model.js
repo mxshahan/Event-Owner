@@ -73,7 +73,11 @@ var userSchema = new _mongoose2.default.Schema({
     }],
     gifts: [{
         type: _mongoose2.default.Schema.Types.ObjectId,
-        ref: 'eventModel'
+        ref: 'paymentModel'
+    }],
+    withdrawn: [{
+        type: _mongoose2.default.Schema.Types.ObjectId,
+        ref: 'withdrawalModel'
     }]
 });
 

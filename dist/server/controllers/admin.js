@@ -186,7 +186,7 @@ var getAdminData = exports.getAdminData = function () {
             while (1) {
                 switch (_context4.prev = _context4.next) {
                     case 0:
-                        if (!(req.user.type == 'admin')) {
+                        if (!req.user.type.includes('admin')) {
                             _context4.next = 11;
                             break;
                         }
@@ -195,8 +195,6 @@ var getAdminData = exports.getAdminData = function () {
                         _context4.next = 4;
                         return _admin.adminCrud.single({
                             qr: {
-                                username: req.user.type,
-                                type: req.user.type,
                                 _id: req.user._id
                             },
                             select: '-password'
@@ -584,10 +582,7 @@ var updateMailTo = exports.updateMailTo = function () {
                         }
 
                         _context11.next = 9;
-                        return _mailto.mailtoCrud.create({
-                            email: req.body.email,
-                            password: req.body.password
-                        });
+                        return _mailto.mailtoCrud.create(req.body);
 
                     case 9:
                         mailto = _context11.sent;
@@ -604,10 +599,7 @@ var updateMailTo = exports.updateMailTo = function () {
                                     _id: req.body._id
                                 }
                             },
-                            body: {
-                                email: req.body.email,
-                                password: req.body.password
-                            }
+                            body: req.body
                         });
 
                     case 15:

@@ -93,26 +93,29 @@ var createEvent = exports.createEvent = function () {
                         user = _context2.sent;
 
                         user.events.push(events);
-                        user.save();
+                        _context2.next = 11;
+                        return user.save();
+
+                    case 11:
                         res.status(201).json(events);
-                        _context2.next = 16;
+                        _context2.next = 17;
                         break;
 
-                    case 13:
-                        _context2.prev = 13;
+                    case 14:
+                        _context2.prev = 14;
                         _context2.t0 = _context2['catch'](1);
 
-                        res.status(500).json({
+                        res.status(422).json({
                             message: 'Please Validate Data',
                             error: _context2.t0
                         });
 
-                    case 16:
+                    case 17:
                     case 'end':
                         return _context2.stop();
                 }
             }
-        }, _callee2, undefined, [[1, 13]]);
+        }, _callee2, undefined, [[1, 14]]);
     }));
 
     return function createEvent(_x3, _x4) {

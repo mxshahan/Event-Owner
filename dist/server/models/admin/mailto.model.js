@@ -43,6 +43,18 @@ var mailtoSchema = new _mongoose2.default.Schema({
     active: {
         type: Boolean,
         enum: [true, false]
+    },
+    host: {
+        type: String
+    },
+    port: {
+        type: String
+    },
+    secure: {
+        type: Boolean
+    },
+    service: {
+        type: String
     }
 });
 

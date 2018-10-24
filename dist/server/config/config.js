@@ -17,8 +17,8 @@ var config = {
     MONGO_URL: 'mongodb://root:123456a@ds153705.mlab.com:53705/eventowner',
     secret: 'helloWorld',
     nodemailer: {
-        user: 'event.owner.fvr@gmail.com',
-        pass: 'evnt@ownr2121'
+        email: 'event.owner.fvr@gmail.com',
+        password: 'evnt@ownr2121'
     },
     stripe: stripeConfig
 

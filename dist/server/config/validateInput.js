@@ -66,7 +66,7 @@ var schemas = exports.schemas = {
         date: _joi2.default.string().required(),
         time: _joi2.default.string(),
         description: [_joi2.default.string().optional(), _joi2.default.allow(null)],
-        author: _joi2.default.string(),
+        author: _joi2.default.optional(),
         payment: [_joi2.default.array().optional(), _joi2.default.allow(null)],
         files: [_joi2.default.array().optional(), _joi2.default.allow(null)],
         gifts: [_joi2.default.array().optional(), _joi2.default.allow(null)],
