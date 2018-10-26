@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "SET NODE_ENV=development&nodemon bin/dev",
+    "dev": "SET NODE_ENV=development&nodemon bin/dev --watch src/server --ignore src/client/*",
     "start-dev": "SET NODE_ENV=development&node bin/dev",
     "prebuild": "rimraf dist",
     "build": "SET NODE_ENV=production&node bin/build&npm run client",
@@ -23,6 +23,7 @@
     "browser-resolve": "^1.11.3",
     "compression": "^1.7.3",
     "cors": "^2.8.4",
+    "ejs": "^2.6.1",
     "express": "^4.16.3",
     "express-fileupload": "^0.4.0",
     "express-history-api-fallback": "^2.2.1",

@@ -35,11 +35,13 @@ var stripe = _config2.default.stripe;
 
 // register to demo.ezcount.co.il to get your own test keys
 
-var api_key = '4c4b3fd224e0943891588ea5a70d6cb566af3a5b4d506908ca04b30526234551';
+var api_key = 'f1c85d16fc1acd369a93f0489f4615d93371632d97a9b0a197de6d4dc0da51bf';
 var api_email = 'demo@ezcount.co.il';
 // DEVELOPER information, we will notify you for any API problem to this details
 var developer_email = 'applicationreact@gmail.com';
-var developer_phone = '008801752294542';
+var developer_phone = '1234567890';
+var secretTransactionId = null;
+var BASEURL = 'http://localhost:3000';
 
 var checkoutOnEvent = exports.checkoutOnEvent = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee(req, res) {
@@ -214,7 +216,6 @@ var setPaymentData = exports.setPaymentData = function () {
   };
 }();
 
-var secretTransactionId = null;
 var ClearFund = exports.ClearFund = function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee4(req, res) {
     var url, data;
@@ -224,19 +225,23 @@ var ClearFund = exports.ClearFund = function () {
           case 0:
             url = 'https://demo.ezcount.co.il/api/payment/prepareSafeUrl/clearingFormForWeb';
             data = {
-              api_key: 'f1c85d16fc1acd369a93f0489f4615d93371632d97a9b0a197de6d4dc0da51bf',
+              api_key: api_key,
               developer_email: developer_email,
-              sum: 150,
-              successUrl: req.baseUrl + '/successAndInvoice',
-              payments: '4-4'
-
+              sum: 15,
+              payment: 3,
+              currency: 'ILS',
+              successUrl: BASEURL + '/api/payment/successAndInvoice'
             };
 
             _request2.default.post(url, { form: data, json: true }, function (error, response, body) {
               if (!error && response.statusCode == 200) {
                 // console.log(body) // Print the shortened url.
                 secretTransactionId = body.secretTransactionId;
-                res.status(200).json(body);
+                res.writeHead(302, {
+                  'Location': body.url
+                });
+                res.end();
+                // res.status(200).json(body);
               } else {
                 console.error("Failed");
                 console.error(error, response);
@@ -267,7 +272,7 @@ var ValidatePayment = exports.ValidatePayment = function () {
             //set the vars for validate request
             validateUrl = 'https://demo.ezcount.co.il/api/payment/validate/' + secretTransactionId;
             validateData = {
-              api_key: 'f1c85d16fc1acd369a93f0489f4615d93371632d97a9b0a197de6d4dc0da51bf',
+              api_key: api_key,
               developer_email: developer_email
             };
 

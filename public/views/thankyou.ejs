@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <style>
+        table tr td:last-child{
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <%if(success){%>
+            <div class="jumbotron text-xs-center" style="background: #fff">
+                <h1 class="display-3">Thank You!</h1>
+                <p class="lead"><strong>Your Payment Successfull.</strong> Please check your email or download the pdf file for further query</p>
+                <hr>
+                <p>
+                    Having trouble? <a href="#">Contact us</a>
+                </p>
+                <table class="table table-striped">
+                    <tr>
+                        <td>Documnent Number</td>
+                        <td><%=doc_number%></td>
+                    </tr>
+                    <tr>
+                        <td>Document uuid</td>
+                        <td><%=doc_uuid%></td>
+                    </tr>
+                    <tr>
+                        <td>Status</td>
+                        <td>Successfull</td>
+                    </tr>
+                </table>
+                <p class="lead">
+                    <a class="btn btn-primary btn-sm" href="<%=pdf_link%>" target="download" role="button">Download PDF</a>
+                </p>
+            </div>
+            <%} else { %>
+                <h1 class="display-3">Payment Unsuccessful</h1>
+            <%}%>
+        </div>
+    </div>
+</body>
+
+</html>

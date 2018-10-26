@@ -26,28 +26,25 @@ var _expressHistoryApiFallback2 = _interopRequireDefault(_expressHistoryApiFallb
 
 require('./config/db');
 
+var _openClearingForm = require('./mid/openClearingForm');
+
+var _openClearingForm2 = _interopRequireDefault(_openClearingForm);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// import dbCreate from './config/create';
 var port = process.env.PORT || 3000;
+// import dbCreate from './config/create';
+
 var app = (0, _express2.default)();
 
-// if (process.env.NODE_ENV !== 'production') {
-//   var chokidar = require('chokidar')
-//   var watcher = chokidar.watch(__dirname)
-//   watcher.on('ready', function () {
-//       watcher.on('all', function () {
-//           console.log("Clearing Server cache from entire modules")
-//           Object.keys(require.cache).forEach(function (id) {
-//               if (/[\/\\]*[\/\\]/.test(id)) delete require.cache[id]
-//           })
-//       })
-//   })
-// }
 // Middlewares
 (0, _middleware2.default)(app);
 // Api Router
 (0, _routes2.default)(app);
+
+// Open Clearing Form and Invoice
+app.use('/api', _openClearingForm2.default);
+
 // Error Handler
 // errorHandler(app);
 var clientPath = _path2.default.resolve(__dirname, '../../dist/client');
@@ -59,6 +56,10 @@ app.set('env', process.env.NODE_ENV);
 // Static Director
 app.use('/client', _express2.default.static(clientPath));
 app.use((0, _expressHistoryApiFallback2.default)('index.html', { root: publicPath }));
+
+//set up templete engine
+app.set('view engine', 'ejs');
+app.set('views', publicPath + '/views');
 
 app.listen(port, function (err, next) {
   if (err) throw err;
