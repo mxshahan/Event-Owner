@@ -27,7 +27,9 @@ router.route('/invoice').options((0, _cors2.default)()).post(_payment.createInvo
 // Saving Payment Data To Database
 router.route('/setdata/:id').options((0, _cors2.default)()).post(_payment.setPaymentData);
 
-router.route('/clear_fund/:id').options((0, _cors2.default)()).get(_payment.ClearFund);
+router.route('/clear_fund').options((0, _cors2.default)()).post(_payment.ClearFund);
+
+router.route('/successAndInvoice').options((0, _cors2.default)()).post(_payment.ValidatePayment);
 
 router.route('/withdraw').options((0, _cors2.default)()).get(_payment.getWithdraw).post(_auth.isAuth, _payment.reqWithdraw);
 

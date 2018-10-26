@@ -346,7 +346,7 @@ var getSingleEvent = exports.getSingleEvent = function () {
                             },
                             populate: {
                                 path: 'author',
-                                select: '-password -_id -email'
+                                select: '-password -_id -email -withdrawn -gifts -personal_id'
                             }
                         });
 

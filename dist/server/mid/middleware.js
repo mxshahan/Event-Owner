@@ -39,7 +39,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //   }
 // }
 
-// import passport from 'passport';
 exports.default = function (app) {
     if (process.env.NODE_ENV === 'production') {
         app.use((0, _compression2.default)());

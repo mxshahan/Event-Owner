@@ -32,6 +32,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var port = process.env.PORT || 3000;
 var app = (0, _express2.default)();
 
+// if (process.env.NODE_ENV !== 'production') {
+//   var chokidar = require('chokidar')
+//   var watcher = chokidar.watch(__dirname)
+//   watcher.on('ready', function () {
+//       watcher.on('all', function () {
+//           console.log("Clearing Server cache from entire modules")
+//           Object.keys(require.cache).forEach(function (id) {
+//               if (/[\/\\]*[\/\\]/.test(id)) delete require.cache[id]
+//           })
+//       })
+//   })
+// }
 // Middlewares
 (0, _middleware2.default)(app);
 // Api Router

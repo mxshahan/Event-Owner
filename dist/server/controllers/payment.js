@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getWithdraw = exports.reqWithdraw = exports.ClearFund = exports.setPaymentData = exports.createInvoice = exports.checkoutOnEvent = undefined;
+exports.getWithdraw = exports.reqWithdraw = exports.ValidatePayment = exports.ClearFund = exports.setPaymentData = exports.createInvoice = exports.checkoutOnEvent = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -214,6 +214,7 @@ var setPaymentData = exports.setPaymentData = function () {
   };
 }();
 
+var secretTransactionId = null;
 var ClearFund = exports.ClearFund = function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee4(req, res) {
     var url, data;
@@ -226,7 +227,7 @@ var ClearFund = exports.ClearFund = function () {
               api_key: 'f1c85d16fc1acd369a93f0489f4615d93371632d97a9b0a197de6d4dc0da51bf',
               developer_email: developer_email,
               sum: 150,
-              successUrl: 'https://google.com',
+              successUrl: req.baseUrl + '/successAndInvoice',
               payments: '4-4'
 
             };
@@ -234,6 +235,7 @@ var ClearFund = exports.ClearFund = function () {
             _request2.default.post(url, { form: data, json: true }, function (error, response, body) {
               if (!error && response.statusCode == 200) {
                 // console.log(body) // Print the shortened url.
+                secretTransactionId = body.secretTransactionId;
                 res.status(200).json(body);
               } else {
                 console.error("Failed");
@@ -254,49 +256,88 @@ var ClearFund = exports.ClearFund = function () {
   };
 }();
 
-var reqWithdraw = exports.reqWithdraw = function () {
+var ValidatePayment = exports.ValidatePayment = function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee5(req, res) {
-    var withdrawn, user;
+    var validateUrl, validateData;
     return _regenerator2.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
+            console.log('Successfull');
+            //set the vars for validate request
+            validateUrl = 'https://demo.ezcount.co.il/api/payment/validate/' + secretTransactionId;
+            validateData = {
+              api_key: 'f1c85d16fc1acd369a93f0489f4615d93371632d97a9b0a197de6d4dc0da51bf',
+              developer_email: developer_email
+            };
+
+
+            _request2.default.post(validateUrl, { json: validateData }, function (error, response, validateResponse) {
+              if (!error && response.statusCode == 200) {
+                // console.log(body) // Print the shortened url.
+                res.status(200).json(validateResponse);
+              } else {
+                console.error("Failed");
+                console.error(error, response);
+              }
+            });
+
+          case 4:
+          case 'end':
+            return _context5.stop();
+        }
+      }
+    }, _callee5, undefined);
+  }));
+
+  return function ValidatePayment(_x9, _x10) {
+    return _ref5.apply(this, arguments);
+  };
+}();
+
+var reqWithdraw = exports.reqWithdraw = function () {
+  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee6(req, res) {
+    var withdrawn, user;
+    return _regenerator2.default.wrap(function _callee6$(_context6) {
+      while (1) {
+        switch (_context6.prev = _context6.next) {
+          case 0:
             withdrawn = void 0;
 
             if (req.user.type !== 'admin') delete req.body.approved;
-            _context5.prev = 2;
-            _context5.next = 5;
+            _context6.prev = 2;
+            _context6.next = 5;
             return _user.userModel.findOne({
               _id: req.user._id
             }).populate('gifts');
 
           case 5:
-            user = _context5.sent;
+            user = _context6.sent;
 
             if (!(req.body.amount <= user.netBalance())) {
-              _context5.next = 16;
+              _context6.next = 16;
               break;
             }
 
-            _context5.next = 9;
+            _context6.next = 9;
             return _withdrawal.withdrawalModel.create({
               amount: req.body.amount,
               withdrawn_by: req.user._id
             });
 
           case 9:
-            withdrawn = _context5.sent;
+            withdrawn = _context6.sent;
 
 
             user.withdrawn.push(withdrawn);
-            _context5.next = 13;
+            _context6.next = 13;
             return user.save();
 
           case 13:
             res.status(200).json(_extends({
               success: true
             }, withdrawn._doc));
-            _context5.next = 17;
+            _context6.next = 17;
             break;
 
           case 16:
@@ -306,38 +347,38 @@ var reqWithdraw = exports.reqWithdraw = function () {
             });
 
           case 17:
-            _context5.next = 22;
+            _context6.next = 22;
             break;
 
           case 19:
-            _context5.prev = 19;
-            _context5.t0 = _context5['catch'](2);
+            _context6.prev = 19;
+            _context6.t0 = _context6['catch'](2);
 
-            res.status(422).json(_context5.t0);
+            res.status(422).json(_context6.t0);
 
           case 22:
           case 'end':
-            return _context5.stop();
+            return _context6.stop();
         }
       }
-    }, _callee5, undefined, [[2, 19]]);
+    }, _callee6, undefined, [[2, 19]]);
   }));
 
-  return function reqWithdraw(_x9, _x10) {
-    return _ref5.apply(this, arguments);
+  return function reqWithdraw(_x11, _x12) {
+    return _ref6.apply(this, arguments);
   };
 }();
 
 var getWithdraw = exports.getWithdraw = function () {
-  var _ref6 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee6(req, res) {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
     var withdraw;
-    return _regenerator2.default.wrap(function _callee6$(_context6) {
+    return _regenerator2.default.wrap(function _callee7$(_context7) {
       while (1) {
-        switch (_context6.prev = _context6.next) {
+        switch (_context7.prev = _context7.next) {
           case 0:
             withdraw = void 0;
-            _context6.prev = 1;
-            _context6.next = 4;
+            _context7.prev = 1;
+            _context7.next = 4;
             return _withdrawal.withdrawalModel.find().populate({
               path: 'withdrawn_by',
               populate: {
@@ -347,27 +388,27 @@ var getWithdraw = exports.getWithdraw = function () {
             });
 
           case 4:
-            withdraw = _context6.sent;
+            withdraw = _context7.sent;
 
             res.status(200).json(withdraw);
-            _context6.next = 11;
+            _context7.next = 11;
             break;
 
           case 8:
-            _context6.prev = 8;
-            _context6.t0 = _context6['catch'](1);
+            _context7.prev = 8;
+            _context7.t0 = _context7['catch'](1);
 
-            res.status(422).json(_context6.t0);
+            res.status(422).json(_context7.t0);
 
           case 11:
           case 'end':
-            return _context6.stop();
+            return _context7.stop();
         }
       }
-    }, _callee6, undefined, [[1, 8]]);
+    }, _callee7, undefined, [[1, 8]]);
   }));
 
-  return function getWithdraw(_x11, _x12) {
-    return _ref6.apply(this, arguments);
+  return function getWithdraw(_x13, _x14) {
+    return _ref7.apply(this, arguments);
   };
 }();
