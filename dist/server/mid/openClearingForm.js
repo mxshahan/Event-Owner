@@ -11,7 +11,7 @@ var _request2 = _interopRequireDefault(_request);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ENV_URL = 'https://demo.ezcount.co.il/';
-var BASEURL = 'http://localhost:3000/';
+var BASEURL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000/';
 var api_key = 'f1c85d16fc1acd369a93f0489f4615d93371632d97a9b0a197de6d4dc0da51bf';
 var developer_email = 'demo@demo.com';
 
