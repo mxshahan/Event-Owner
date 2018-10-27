@@ -36,7 +36,7 @@ var clearinFormData = {
     sum: 15,
     payment: 3,
     currency: 'ILS',
-    successUrl: BASEURL + 'api/successAndInvoice'
+    successUrl: 'https://event-owner.herokuapp.com/api/successAndInvoice'
 };
 var secretTransactionId = void 0;
 var payment_data = [];
