@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var ENV_URL = 'https://demo.ezcount.co.il/';
-var BASEURL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000/';
+var BASEURL = process.env.NODE_ENV === 'production' ? 'https://event-owner.herokuapp.com/' : 'http://localhost:3000/';
 var api_key = 'f1c85d16fc1acd369a93f0489f4615d93371632d97a9b0a197de6d4dc0da51bf';
 var developer_email = 'demo@demo.com';
 
