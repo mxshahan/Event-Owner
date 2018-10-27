@@ -36,10 +36,10 @@ var clearinFormData = {
     sum: 15,
     payment: 3,
     currency: 'ILS',
-    successUrl: 'https://event-owner.herokuapp.com/api/successAndInvoice'
+    successUrl: BASEURL + 'api/successAndInvoice'
 };
 var secretTransactionId = void 0;
-var payment_data = [];
+var payment_data = void 0;
 
 exports.default = function (req, res) {
     // res.writeHead(200, {'Content-Type': 'text/html'}); // http header
@@ -50,9 +50,10 @@ exports.default = function (req, res) {
     }
 
     var url = req.url;
-    payment_data.push(req.query);
+    // payment_data.push(req.query);
 
     if (url.startsWith("/openClearingForm")) {
+        payment_data = req.query;
         var p_data = req.query;
         _extends(clearinFormData, {
             sum: p_data.gift_amount,
@@ -87,10 +88,11 @@ exports.default = function (req, res) {
 
         _request2.default.post(validateUrl, { json: validateData }, function (error, response, validateResponse) {
             if (validateResponse.success) {
+                // console.log(payment_data);
                 // if there is permission , create the invoices
-                createDocFunction(validateResponse, payment_data[0]).then(function (createDocResponse) {
+                createDocFunction(validateResponse, payment_data).then(function (createDocResponse) {
                     // console.log('payment data', payment_data);
-                    setPaymentData(payment_data[0], createDocResponse, res);
+                    setPaymentData(payment_data, createDocResponse, res);
                     // res.status(200).json(createDocResponse)
                     // _flushResponseEnd(JSON.stringify(createDocResponse));
                 });
