@@ -4,11 +4,25 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _request = require('request');
 
 var _request2 = _interopRequireDefault(_request);
 
+var _event = require('../models/event.model');
+
+var _user = require('../models/user.model');
+
+var _payment = require('../models/payment.model');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
 var ENV_URL = 'https://demo.ezcount.co.il/';
 var BASEURL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:3000/';
@@ -25,6 +39,7 @@ var clearinFormData = {
     successUrl: BASEURL + 'api/successAndInvoice'
 };
 var secretTransactionId = void 0;
+var payment_data = [];
 
 exports.default = function (req, res) {
     // res.writeHead(200, {'Content-Type': 'text/html'}); // http header
@@ -35,8 +50,14 @@ exports.default = function (req, res) {
     }
 
     var url = req.url;
+    payment_data.push(req.query);
 
     if (url.startsWith("/openClearingForm")) {
+        var p_data = req.query;
+        _extends(clearinFormData, {
+            sum: p_data.gift_amount,
+            payment: p_data.num_of_payment
+        });
         _request2.default.post(reqUrl, { json: clearinFormData }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 // print to console the data received from this request. [ksys_token , url , secretTransactionId]
@@ -64,19 +85,17 @@ exports.default = function (req, res) {
             developer_email: developer_email
         };
 
-        var validateRequest = {};
-        var createDoc = {};
         _request2.default.post(validateUrl, { json: validateData }, function (error, response, validateResponse) {
             if (validateResponse.success) {
                 // if there is permission , create the invoices
-                createDocFunction(validateResponse).then(function (createDocResponse) {
-                    res.render('thankyou', createDocResponse);
+                createDocFunction(validateResponse, payment_data[0]).then(function (createDocResponse) {
+                    // console.log('payment data', payment_data);
+                    setPaymentData(payment_data[0], createDocResponse, res);
                     // res.status(200).json(createDocResponse)
                     // _flushResponseEnd(JSON.stringify(createDocResponse));
                 });
             } else {
                 res.render('thankyou', { success: false });
-
                 // _flushResponseEnd('some problem in the validate request');
             }
         });
@@ -88,20 +107,20 @@ exports.default = function (req, res) {
 // Creating Invoice
 
 
-function createDocFunction(validateResponse) {
+var createDocFunction = function createDocFunction(validateResponse, payment_data) {
     var createDocData = {
         // CUSTOMER credentials
         api_key: api_key,
         developer_email: developer_email,
         type: 320 /*invoice receipt*/
-        , description: '[DOCUMENT DESCRIPTION]',
-        customer_name: '[CUSTOMER NAME HERE]',
-        customer_email: '[CUSTOMER EMAIL HERE]',
-        customer_address: '[CUSTOMER ADDRESS HERE]',
+        , description: payment_data.description,
+        customer_name: payment_data.firstname + ' ' + payment_data.lastname,
+        customer_email: payment_data.email,
+        customer_address: payment_data.address,
         item: [{
             catalog_number: 'MKT1',
             details: 'item 1 details',
-            amount: 1,
+            amount: payment_data.gift_amount,
             price: validateResponse.cgp_payment_total,
             vat_type: 'INC' //this price include the VAT
         }],
@@ -132,4 +151,106 @@ function createDocFunction(validateResponse) {
             }
         });
     });
-}
+};
+
+// try {
+//     events = await eventModel.findOne({ _id: req.body.eventId });
+//     const author = await userModel.findOne({ _id: events.author });
+//     if (events) {
+//         payment_info = await paymentCrud.create(req.body);
+//         events.gifts.push(payment_info);
+//         author.gifts.push(payment_info);
+//         await events.save();
+//         await author.save();
+//         // res.status(200).end()
+//         // res.status(200).json(payment_info);
+//         resolve(payment_info)
+//     } else {
+//         reject({ msg: 'No Event Found' })
+//     }
+// } catch (e) {
+//     reject({ success: false })
+// }
+
+
+var setPaymentData = function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee(data, createDocResponse, res) {
+        var payment_info, events, author;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+            while (1) {
+                switch (_context.prev = _context.next) {
+                    case 0:
+                        payment_info = void 0, events = void 0, author = void 0;
+
+                        console.log(data);
+
+                        _context.prev = 2;
+                        _context.next = 5;
+                        return _event.eventModel.findOne({ _id: data.eventId });
+
+                    case 5:
+                        events = _context.sent;
+                        _context.next = 8;
+                        return _user.userModel.findOne({ _id: events.author });
+
+                    case 8:
+                        author = _context.sent;
+
+                        if (!events) {
+                            _context.next = 22;
+                            break;
+                        }
+
+                        _context.next = 12;
+                        return _payment.paymentCrud.create(data);
+
+                    case 12:
+                        payment_info = _context.sent;
+
+                        events.gifts.push(payment_info);
+                        author.gifts.push(payment_info);
+                        _context.next = 17;
+                        return events.save();
+
+                    case 17:
+                        _context.next = 19;
+                        return author.save();
+
+                    case 19:
+                        // res.status(200).end()
+                        // res.status(200).json(payment_info);
+                        res.render('thankyou', _extends(createDocResponse, {
+                            payment_info: payment_info
+                        }));
+                        _context.next = 23;
+                        break;
+
+                    case 22:
+                        res.render('thankyou', _extends(createDocResponse, {
+                            payment_info: false
+                        }));
+
+                    case 23:
+                        _context.next = 28;
+                        break;
+
+                    case 25:
+                        _context.prev = 25;
+                        _context.t0 = _context['catch'](2);
+
+                        res.render('thankyou', _extends(createDocResponse, {
+                            payment_info: false
+                        }));
+
+                    case 28:
+                    case 'end':
+                        return _context.stop();
+                }
+            }
+        }, _callee, undefined, [[2, 25]]);
+    }));
+
+    return function setPaymentData(_x, _x2, _x3) {
+        return _ref.apply(this, arguments);
+    };
+}();

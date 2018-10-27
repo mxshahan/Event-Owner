@@ -47,18 +47,21 @@ var paymentSchema = new _mongoose2.default.Schema({
     total_amount: {
         type: Number
     },
-    trxid: {
-        type: String
+    num_of_payment: {
+        type: Number
     },
     eventId: {
         type: _mongoose2.default.Schema.Types.ObjectId,
         ref: 'eventModel'
     },
-    description: {
+    address: {
         type: String
     },
-    wishes: {
-        type: Object
+    wishes_msg: {
+        type: String
+    },
+    wishes_file: {
+        type: String
     },
     approved: {
         type: Boolean,
