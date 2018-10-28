@@ -122,7 +122,7 @@ var createDocFunction = function createDocFunction(validateResponse, payment_dat
         item: [{
             catalog_number: 'MKT1',
             details: 'item 1 details',
-            amount: payment_data.gift_amount,
+            amount: payment_data.total_fee,
             price: validateResponse.cgp_payment_total,
             vat_type: 'INC' //this price include the VAT
         }],
