@@ -54,10 +54,10 @@ exports.default = function (req, res) {
 
     if (url.startsWith("/openClearingForm")) {
         payment_data = req.query;
-        var p_data = req.query;
+
         _extends(clearinFormData, {
-            sum: p_data.gift_amount,
-            payment: p_data.num_of_payment
+            sum: payment_data.total_amount,
+            payment: payment_data.num_of_payment
         });
         _request2.default.post(reqUrl, { json: clearinFormData }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
