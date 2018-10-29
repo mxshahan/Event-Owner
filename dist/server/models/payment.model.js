@@ -23,17 +23,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var paymentSchema = new _mongoose2.default.Schema({
     firstname: {
         type: String,
-        required: true,
         default: 'No Name'
     },
     lastname: {
         type: String,
-        required: true,
         default: 'No Name'
     },
     email: {
-        type: String,
-        required: true
+        type: String
     },
     phone: {
         type: String
@@ -48,11 +45,14 @@ var paymentSchema = new _mongoose2.default.Schema({
         type: Number
     },
     num_of_payment: {
-        type: Number
+        type: String
     },
     eventId: {
         type: _mongoose2.default.Schema.Types.ObjectId,
         ref: 'eventModel'
+    },
+    personal_id: {
+        type: String
     },
     address: {
         type: String

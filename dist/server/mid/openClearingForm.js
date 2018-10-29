@@ -34,7 +34,6 @@ var clearinFormData = {
     api_key: api_key,
     developer_email: developer_email,
     sum: 15,
-    payment: 3,
     currency: 'ILS',
     successUrl: BASEURL + 'api/successAndInvoice'
 };
@@ -57,7 +56,7 @@ exports.default = function (req, res) {
 
         _extends(clearinFormData, {
             sum: payment_data.total_amount,
-            payment: payment_data.num_of_payment
+            payments: payment_data.num_of_payment
         });
         _request2.default.post(reqUrl, { json: clearinFormData }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
@@ -91,7 +90,6 @@ exports.default = function (req, res) {
                 // console.log(payment_data);
                 // if there is permission , create the invoices
                 createDocFunction(validateResponse, payment_data).then(function (createDocResponse) {
-                    // console.log('payment data', payment_data);
                     setPaymentData(payment_data, createDocResponse, res);
                     // res.status(200).json(createDocResponse)
                     // _flushResponseEnd(JSON.stringify(createDocResponse));
@@ -122,18 +120,18 @@ var createDocFunction = function createDocFunction(validateResponse, payment_dat
         item: [{
             catalog_number: 'MKT1',
             details: 'item 1 details',
-            amount: payment_data.total_fee,
+            amount: validateResponse.cgp_num_of_payments,
             price: validateResponse.cgp_payment_total,
             vat_type: 'INC' //this price include the VAT
         }],
         payment: [{
             payment_type: 3 /*type CC*/
-            , payment: validateResponse.cgp_payment_total, //the sum field
+            , payment: payment_data.total_fee, //validateResponse.cgp_payment_total, //the sum field
             cc_number: validateResponse.cgp_customer_cc_4_digits, //last 4 digits!!!
             cc_type_name: validateResponse.cgp_customer_cc_name,
             cc_deal_type: 1 /*no payments*/
         }],
-        price_total: validateResponse.cgp_payment_total,
+        price_total: payment_data.total_fee, //validateResponse.cgp_payment_total,
         comment: "[DOCUMENT COMMENT COMES HERE]",
         transaction_id: validateResponse.cgp_ksys_transacion_id,
         cgp_ids: [validateResponse.cgp_id],
@@ -148,32 +146,12 @@ var createDocFunction = function createDocFunction(validateResponse, payment_dat
                 resolve(body);
             } else {
                 // console.error("Failed");
-                // console.error(error, response);
+                console.error(error, response);
                 reject(error);
             }
         });
     });
 };
-
-// try {
-//     events = await eventModel.findOne({ _id: req.body.eventId });
-//     const author = await userModel.findOne({ _id: events.author });
-//     if (events) {
-//         payment_info = await paymentCrud.create(req.body);
-//         events.gifts.push(payment_info);
-//         author.gifts.push(payment_info);
-//         await events.save();
-//         await author.save();
-//         // res.status(200).end()
-//         // res.status(200).json(payment_info);
-//         resolve(payment_info)
-//     } else {
-//         reject({ msg: 'No Event Found' })
-//     }
-// } catch (e) {
-//     reject({ success: false })
-// }
-
 
 var setPaymentData = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee(data, createDocResponse, res) {
@@ -183,31 +161,30 @@ var setPaymentData = function () {
                 switch (_context.prev = _context.next) {
                     case 0:
                         payment_info = void 0, events = void 0, author = void 0;
-
-                        console.log(data);
-
-                        _context.prev = 2;
-                        _context.next = 5;
+                        _context.prev = 1;
+                        _context.next = 4;
                         return _event.eventModel.findOne({ _id: data.eventId });
 
-                    case 5:
+                    case 4:
                         events = _context.sent;
-                        _context.next = 8;
+                        _context.next = 7;
                         return _user.userModel.findOne({ _id: events.author });
 
-                    case 8:
+                    case 7:
                         author = _context.sent;
 
                         if (!events) {
-                            _context.next = 22;
+                            _context.next = 27;
                             break;
                         }
 
+                        _context.prev = 9;
                         _context.next = 12;
                         return _payment.paymentCrud.create(data);
 
                     case 12:
                         payment_info = _context.sent;
+
 
                         events.gifts.push(payment_info);
                         author.gifts.push(payment_info);
@@ -219,37 +196,45 @@ var setPaymentData = function () {
                         return author.save();
 
                     case 19:
-                        // res.status(200).end()
-                        // res.status(200).json(payment_info);
                         res.render('thankyou', _extends(createDocResponse, {
                             payment_info: payment_info
                         }));
-                        _context.next = 23;
+                        _context.next = 25;
                         break;
 
                     case 22:
-                        res.render('thankyou', _extends(createDocResponse, {
-                            payment_info: false
-                        }));
+                        _context.prev = 22;
+                        _context.t0 = _context['catch'](9);
 
-                    case 23:
+                        res.send('Erro Found...! If you think your payment clear plese contact us in contact page. Thanks');
+
+                    case 25:
                         _context.next = 28;
                         break;
 
-                    case 25:
-                        _context.prev = 25;
-                        _context.t0 = _context['catch'](2);
+                    case 27:
+                        res.render('thankyou', _extends(createDocResponse, {
+                            payment_info: 0
+                        }));
+
+                    case 28:
+                        _context.next = 33;
+                        break;
+
+                    case 30:
+                        _context.prev = 30;
+                        _context.t1 = _context['catch'](1);
 
                         res.render('thankyou', _extends(createDocResponse, {
                             payment_info: false
                         }));
 
-                    case 28:
+                    case 33:
                     case 'end':
                         return _context.stop();
                 }
             }
-        }, _callee, undefined, [[2, 25]]);
+        }, _callee, undefined, [[1, 30], [9, 22]]);
     }));
 
     return function setPaymentData(_x, _x2, _x3) {
