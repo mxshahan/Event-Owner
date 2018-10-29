@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
     <style>
-        table tr td:last-child{
+        table tr td:last-child {
             text-align: right;
         }
     </style>
@@ -21,7 +21,8 @@
             <%if(success){%>
             <div class="jumbotron text-xs-center" style="background: #fff">
                 <h1 class="display-3">Thank You!</h1>
-                <p class="lead"><strong>Your Payment Successfull.</strong> Please check your email or download the pdf file for further query</p>
+                <p class="lead"><strong>Your Payment Successfull.</strong> Please check your email or download the pdf
+                    file for further query</p>
                 <hr>
                 <p>
                     Having trouble? <a href="#">Contact us</a>
@@ -29,24 +30,34 @@
                 <table class="table table-striped">
                     <tr>
                         <td>Documnent Number</td>
-                        <td><%=doc_number%></td>
+                        <td>
+                            <%=doc_number%>
+                        </td>
                     </tr>
                     <tr>
                         <td>Document uuid</td>
-                        <td><%=doc_uuid%></td>
+                        <td>
+                            <%=doc_uuid%>
+                        </td>
                     </tr>
                     <tr>
                         <td>Status</td>
                         <td>Successfull</td>
                     </tr>
+                    <tr>
+                        <td>Total Amount Paid</td>
+                        <td><%=payment_info.total_amount%></td>
+                    </tr>
                 </table>
-                <%if(payment_info) {%><p>Payment Succesfull</p> <%}%>
+                <%if(payment_info) {%>
+                <p>Payment Succesfull</p>
+                <%}%>
                 <p class="lead">
                     <a class="btn btn-primary btn-sm" href="<%=pdf_link%>" target="download" role="button">Download PDF</a>
                 </p>
             </div>
             <%} else { %>
-                <h1 class="display-3">Payment Unsuccessful</h1>
+            <h1 class="display-3">Payment Unsuccessful</h1>
             <%}%>
         </div>
     </div>
