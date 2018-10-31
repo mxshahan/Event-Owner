@@ -49,7 +49,7 @@ router.route('/mailto').get(_auth.isAuth, _admin.getMailTo);
 router.route('/mailto/update').options((0, _cors2.default)()).post(_auth.isAuth, _admin.updateMailTo);
 
 // Route For GET Charges
-router.route('/charges').get(_auth.isAuth, _admin.getCharges);
+router.route('/charges').get(_admin.getCharges);
 
 // Route For MailTo Page
 router.route('/charges/update').options((0, _cors2.default)()).post(_auth.isAuth, _admin.updateCharges);

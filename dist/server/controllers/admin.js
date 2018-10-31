@@ -651,44 +651,29 @@ var getCharges = exports.getCharges = function () {
             while (1) {
                 switch (_context12.prev = _context12.next) {
                     case 0:
-                        if (!(req.user.type === 'admin')) {
-                            _context12.next = 13;
-                            break;
-                        }
-
-                        _context12.prev = 1;
-                        _context12.next = 4;
+                        _context12.prev = 0;
+                        _context12.next = 3;
                         return _charges.chargesCrud.get();
 
-                    case 4:
+                    case 3:
                         charges = _context12.sent;
 
                         res.status(201).json(charges);
-                        _context12.next = 11;
+                        _context12.next = 10;
                         break;
 
-                    case 8:
-                        _context12.prev = 8;
-                        _context12.t0 = _context12['catch'](1);
+                    case 7:
+                        _context12.prev = 7;
+                        _context12.t0 = _context12['catch'](0);
 
                         res.status(422).json(_context12.t0);
 
-                    case 11:
-                        _context12.next = 14;
-                        break;
-
-                    case 13:
-                        res.status(402).json({
-                            err: true,
-                            msg: 'You have no rights to edit this'
-                        });
-
-                    case 14:
+                    case 10:
                     case 'end':
                         return _context12.stop();
                 }
             }
-        }, _callee12, undefined, [[1, 8]]);
+        }, _callee12, undefined, [[0, 7]]);
     }));
 
     return function getCharges(_x24, _x25) {

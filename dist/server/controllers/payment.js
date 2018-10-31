@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getWithdraw = exports.reqWithdraw = exports.ValidatePayment = exports.ClearFund = exports.setPaymentData = exports.createInvoice = exports.checkoutOnEvent = undefined;
+exports.updateWithdraw = exports.getWithdraw = exports.reqWithdraw = exports.ValidatePayment = exports.ClearFund = exports.setPaymentData = exports.createInvoice = exports.checkoutOnEvent = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -320,53 +320,64 @@ var reqWithdraw = exports.reqWithdraw = function () {
             user = _context6.sent;
 
             if (!(req.body.amount <= user.netBalance())) {
-              _context6.next = 16;
+              _context6.next = 22;
               break;
             }
 
-            _context6.next = 9;
+            _context6.prev = 7;
+            _context6.next = 10;
             return _withdrawal.withdrawalModel.create({
               amount: req.body.amount,
               withdrawn_by: req.user._id
             });
 
-          case 9:
+          case 10:
             withdrawn = _context6.sent;
 
 
             user.withdrawn.push(withdrawn);
-            _context6.next = 13;
+            _context6.next = 14;
             return user.save();
 
-          case 13:
+          case 14:
             res.status(200).json(_extends({
               success: true
             }, withdrawn._doc));
-            _context6.next = 17;
+            _context6.next = 20;
             break;
 
-          case 16:
+          case 17:
+            _context6.prev = 17;
+            _context6.t0 = _context6['catch'](7);
+
+            res.status(403).json(_context6.t0);
+
+          case 20:
+            _context6.next = 23;
+            break;
+
+          case 22:
             res.status(203).json({
               success: false,
               msg: 'You have insufficient balance '
             });
 
-          case 17:
-            _context6.next = 22;
+          case 23:
+            _context6.next = 28;
             break;
 
-          case 19:
-            _context6.prev = 19;
-            _context6.t0 = _context6['catch'](2);
+          case 25:
+            _context6.prev = 25;
+            _context6.t1 = _context6['catch'](2);
 
-            res.status(422).json(_context6.t0);
+            res.status(422).json(_context6.t1);
 
-          case 22:
+          case 28:
           case 'end':
             return _context6.stop();
         }
       }
-    }, _callee6, undefined, [[2, 19]]);
+    }, _callee6, undefined, [[2, 25], [7, 17]]);
   }));
 
   return function reqWithdraw(_x11, _x12) {
@@ -415,5 +426,54 @@ var getWithdraw = exports.getWithdraw = function () {
 
   return function getWithdraw(_x13, _x14) {
     return _ref7.apply(this, arguments);
+  };
+}();
+
+var updateWithdraw = exports.updateWithdraw = function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee8(req, res) {
+    var dts;
+    return _regenerator2.default.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            if (!(req.user.type === 'admin')) {
+              _context8.next = 11;
+              break;
+            }
+
+            _context8.prev = 1;
+            _context8.next = 4;
+            return _withdrawal.withdrawalCrud.put({
+              params: {
+                qr: { _id: req.params.id }
+              },
+              body: {
+                approved: true
+              }
+            });
+
+          case 4:
+            dts = _context8.sent;
+
+            res.status(200).json(dts);
+            _context8.next = 11;
+            break;
+
+          case 8:
+            _context8.prev = 8;
+            _context8.t0 = _context8['catch'](1);
+
+            res.status(422).json(_context8.t0);
+
+          case 11:
+          case 'end':
+            return _context8.stop();
+        }
+      }
+    }, _callee8, undefined, [[1, 8]]);
+  }));
+
+  return function updateWithdraw(_x15, _x16) {
+    return _ref8.apply(this, arguments);
   };
 }();

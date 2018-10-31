@@ -113,7 +113,9 @@ userSchema.methods = {
     netBalance: function netBalance() {
         var total = 0;
         this.gifts.map(function (gift) {
-            total += gift.gift_amount;
+            if (gift.gift_amount) {
+                total += gift.gift_amount;
+            }
         });
         return total;
     }

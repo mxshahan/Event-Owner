@@ -33,4 +33,6 @@ router.route('/successAndInvoice').options((0, _cors2.default)()).get(_payment.V
 
 router.route('/withdraw').options((0, _cors2.default)()).get(_payment.getWithdraw).post(_auth.isAuth, _payment.reqWithdraw);
 
+router.route('/withdraw/:id').put(_auth.isAuth, _payment.updateWithdraw);
+
 exports.default = router;

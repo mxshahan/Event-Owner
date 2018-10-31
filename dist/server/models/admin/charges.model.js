@@ -43,9 +43,12 @@ var chargesSchema = new _mongoose2.default.Schema({
     paybox: {
         type: Number
     },
-    trx_charge: {
+    num_of_payment: {
         type: Number
-    }
+    },
+    trx_charges: [{
+        type: Number
+    }]
 });
 
 chargesSchema.plugin(_mongooseUniqueValidator2.default);
