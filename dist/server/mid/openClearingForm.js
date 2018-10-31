@@ -30,13 +30,6 @@ var api_key = 'f1c85d16fc1acd369a93f0489f4615d93371632d97a9b0a197de6d4dc0da51bf'
 var developer_email = 'demo@demo.com';
 
 var reqUrl = ENV_URL + 'api/payment/prepareSafeUrl/clearingFormForWeb';
-var clearinFormData = {
-    api_key: api_key,
-    developer_email: developer_email,
-    sum: 15,
-    currency: 'ILS',
-    successUrl: BASEURL + 'api/successAndInvoice'
-};
 var secretTransactionId = void 0;
 var payment_data = void 0;
 
@@ -52,12 +45,23 @@ exports.default = function (req, res) {
     // payment_data.push(req.query);
 
     if (url.startsWith("/openClearingForm")) {
-        payment_data = req.query;
+        processClearingForm();
+    } else if (url.startsWith('/successAndInvoice')) {
+        successClearingForm();
+    } else {
+        _flushResponseEnd('<h1>Wrong Page!<h1>'); //write a response
+    }
 
-        _extends(clearinFormData, {
-            sum: payment_data.total_amount,
+    function processClearingForm() {
+        payment_data = req.query;
+        var clearinFormData = {
+            api_key: api_key,
+            developer_email: developer_email,
+            sum: 15,
+            currency: 'ILS',
+            successUrl: BASEURL + 'api/successAndInvoice',
             payments: payment_data.num_of_payment
-        });
+        };
         _request2.default.post(reqUrl, { json: clearinFormData }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 // print to console the data received from this request. [ksys_token , url , secretTransactionId]
@@ -75,7 +79,9 @@ exports.default = function (req, res) {
                 _flushResponseEnd("Error opening clearing form, please check your console");
             }
         });
-    } else if (url.startsWith('/successAndInvoice')) {
+    }
+
+    function successClearingForm() {
         // ensure there is a secretTransactionId, then continue creating the invoices
 
         //set the vars for validate request
@@ -99,8 +105,6 @@ exports.default = function (req, res) {
                 // _flushResponseEnd('some problem in the validate request');
             }
         });
-    } else {
-        _flushResponseEnd('<h1>Wrong Page!<h1>'); //write a response
     }
 };
 
