@@ -57,7 +57,7 @@ exports.default = function (req, res) {
         var clearinFormData = {
             api_key: api_key,
             developer_email: developer_email,
-            sum: 15,
+            sum: payment_data.total_amount,
             currency: 'ILS',
             successUrl: BASEURL + 'api/successAndInvoice',
             payments: payment_data.num_of_payment
