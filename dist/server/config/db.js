@@ -14,7 +14,8 @@ _mongoose2.default.Promise = global.Promise;
 
 try {
   _mongoose2.default.connect(_config2.default.MONGO_URL, {
-    useNewUrlParser: true
+    useNewUrlParser: true,
+    useCreateIndex: true
   });
 } catch (err) {
   _mongoose2.default.createConnection(_config2.default.MONGO_URL);

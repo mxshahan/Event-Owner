@@ -45,24 +45,31 @@ exports.default = function (req, res) {
     // payment_data.push(req.query);
 
     if (url.startsWith("/openClearingForm")) {
-        processClearingForm();
+        initClearingForm().then(function (resData) {
+            processClearingForm(resData);
+        });
     } else if (url.startsWith('/successAndInvoice')) {
         successClearingForm();
     } else {
         _flushResponseEnd('<h1>Wrong Page!<h1>'); //write a response
     }
 
-    function processClearingForm() {
-        payment_data = req.query;
-        var clearinFormData = {
-            api_key: api_key,
-            developer_email: developer_email,
-            sum: payment_data.total_amount,
-            currency: 'ILS',
-            successUrl: BASEURL + 'api/successAndInvoice',
-            payments: payment_data.num_of_payment
-        };
-        _request2.default.post(reqUrl, { json: clearinFormData }, function (error, response, body) {
+    function initClearingForm() {
+        return new Promise(function (resolve, reject) {
+            var clearingFormData = {
+                api_key: api_key,
+                developer_email: developer_email,
+                sum: 15,
+                currency: 'ILS',
+                successUrl: BASEURL + 'api/successAndInvoice',
+                payments: '8-8'
+            };
+            resolve(clearingFormData);
+        });
+    }
+
+    function processClearingForm(resData) {
+        _request2.default.post(reqUrl, { json: resData }, function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 // print to console the data received from this request. [ksys_token , url , secretTransactionId]
                 // store the token for later validation

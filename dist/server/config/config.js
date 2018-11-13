@@ -14,6 +14,8 @@ var STRIPE_SECRET_KEY = process.env.NODE_ENV === 'production' ? 'sk_test_uE7kll2
 var stripeConfig = (0, _stripe2.default)(STRIPE_SECRET_KEY);
 var MONGO_URL = process.env.NODE_ENV === 'production' ? 'mongodb://root:123456a@ds153705.mlab.com:53705/eventowner' : 'mongodb://127.0.0.1:27017/eventowner';
 
+// const MONGO_URL = 'mongodb://root:123456a@ds153705.mlab.com:53705/eventowner';
+
 var config = {
     MONGO_URL: MONGO_URL,
     secret: 'helloWorld',

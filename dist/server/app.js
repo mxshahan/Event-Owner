@@ -24,18 +24,29 @@ var _expressHistoryApiFallback = require('express-history-api-fallback');
 
 var _expressHistoryApiFallback2 = _interopRequireDefault(_expressHistoryApiFallback);
 
+var _https = require('https');
+
+var _https2 = _interopRequireDefault(_https);
+
 require('./config/db');
 
 var _openClearingForm = require('./mid/openClearingForm');
 
 var _openClearingForm2 = _interopRequireDefault(_openClearingForm);
 
+var _fs = require('fs');
+
+var _fs2 = _interopRequireDefault(_fs);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var port = process.env.PORT || 3000;
-// import dbCreate from './config/create';
-
 var app = (0, _express2.default)();
+
+var certConfig = {
+  key: _fs2.default.readFileSync(_path2.default.resolve(__dirname, '../../dev.deliciousbrains.com.key')),
+  cert: _fs2.default.readFileSync(_path2.default.resolve(__dirname, '../../dev.deliciousbrains.com.crt'))
+};
 
 // Middlewares
 (0, _middleware2.default)(app);
@@ -65,3 +76,8 @@ app.listen(port, function (err, next) {
   if (err) throw err;
   console.log('Server running at port: ' + port);
 });
+// const sslport = 8080;
+// https.createServer(certConfig, app).listen(sslport, (err, next) => {
+//   if(err) throw err;
+//   console.log(`secured server running at port: ${8080}`);
+// });
