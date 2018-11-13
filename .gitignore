@@ -2,3 +2,4 @@
 yarn-error.log
 /public/uploads/*
 .cache
+yarn.lock
