@@ -78,7 +78,21 @@ var userSchema = new _mongoose2.default.Schema({
     withdrawn: [{
         type: _mongoose2.default.Schema.Types.ObjectId,
         ref: 'withdrawalModel'
-    }]
+    }],
+    social: {
+        facebook: {
+            id: String,
+            token: String
+        },
+        google: {
+            id: String,
+            token: String
+        },
+        twitter: {
+            id: String,
+            token: String
+        }
+    }
 });
 
 userSchema.pre('save', function (next) {
@@ -99,7 +113,7 @@ userSchema.methods = {
         return _jsonwebtoken2.default.sign({
             _id: this._id,
             accType: this.acc_type,
-            username: this.username
+            username: this.username || ''
         }, _config2.default.secret);
     },
     toAuthJSON: function toAuthJSON() {

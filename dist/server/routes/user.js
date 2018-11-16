@@ -18,12 +18,14 @@ var _auth = require('../mid/auth');
 
 var _file = require('../mid/file');
 
+var _user2 = require('../mid/user');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // const passportJWT = passport.authenticate('jwt', { session: false });
-
-// import passport from 'passport';
 var router = (0, _expressPromiseRouter2.default)();
+// import passport from 'passport';
+
 
 router.route('/login').options((0, _cors2.default)()).post(_user.LoginUser);
 
@@ -32,6 +34,10 @@ router.route('/create').options((0, _cors2.default)()).post(_user.createUser);
 router.route('/me/:username').get(_user.getUser);
 
 router.route('/delete/:username').options((0, _cors2.default)()).delete(_auth.isAuth, _user.deleteUser);
+
+router.route('/facebook-login').options((0, _cors2.default)()).post(_user.facebookLogin);
+
+router.route('/facebook-register').options((0, _cors2.default)()).post(_user.facebookRegister);
 
 router.route('/check').options((0, _cors2.default)()).get(_user.checkUser);
 

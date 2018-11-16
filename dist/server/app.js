@@ -76,8 +76,8 @@ app.listen(port, function (err, next) {
   if (err) throw err;
   console.log('Server running at port: ' + port);
 });
-// const sslport = 8080;
-// https.createServer(certConfig, app).listen(sslport, (err, next) => {
-//   if(err) throw err;
-//   console.log(`secured server running at port: ${8080}`);
-// });
+var sslport = 8085;
+_https2.default.createServer(certConfig, app).listen(sslport, function (err, next) {
+  if (err) throw err;
+  console.log('secured server running at port: ' + sslport);
+});

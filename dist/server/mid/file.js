@@ -48,7 +48,7 @@ var fileUploadMiddlware = exports.fileUploadMiddlware = function () {
 
 
             req.filename = newFilename;
-            if (env.includes('production')) {
+            if (env === 'production') {
               req.filePath = req.protocol + '://' + req.headers.host + '/uploads/' + newFilename;
             } else {
               req.filePath = req.protocol + '://' + req.headers.host + '/uploads/' + newFilename;
