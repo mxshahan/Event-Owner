@@ -5,14 +5,14 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development&nodemon bin/dev --watch src/server",
-    "start-dev": "SET NODE_ENV=development&node bin/dev",
+    "start-dev": "NODE_ENV=development&node bin/dev",
     "prebuild": "rimraf dist",
-    "build": "SET NODE_ENV=production&node bin/build&npm run client",
-    "client": "SET NODE_ENV=production& webpack --config webpack.prod.js",
+    "build": "NODE_ENV=production&node bin/build&npm run client",
+    "client": "NODE_ENV=production& webpack --config webpack.prod.js",
     "client:dev": "NODE_ENV=development&webpack --config webpack.dev.js --progress --color -w",
-    "dev-server": "SET NODE_ENV=development&webpack-dev-server --config webpack.dev.js --open --progress -w",
+    "dev-server": "NODE_ENV=development&webpack-dev-server --config webpack.dev.js --open --progress -w",
     "test": "snyk test",
-    "start": "SET NODE_ENV=production&node bin/prod",
+    "start": "NODE_ENV=production&node bin/prod",
     "pc": "parcel public/parcel.html --port 3001"
   },
   "dependencies": {

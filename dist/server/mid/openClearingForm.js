@@ -32,6 +32,7 @@ var developer_email = 'demo@demo.com';
 var reqUrl = ENV_URL + 'api/payment/prepareSafeUrl/clearingFormForWeb';
 var secretTransactionId = void 0;
 var payment_data = void 0;
+var pdt = [];
 
 exports.default = function (req, res) {
     // res.writeHead(200, {'Content-Type': 'text/html'}); // http header
@@ -42,7 +43,8 @@ exports.default = function (req, res) {
     }
 
     var url = req.url;
-    // payment_data.push(req.query);
+    pdt.push(req.query);
+    payment_data = pdt[0];
 
     if (url.startsWith("/openClearingForm")) {
         initClearingForm().then(function (resData) {
@@ -119,6 +121,7 @@ exports.default = function (req, res) {
 
 
 var createDocFunction = function createDocFunction(validateResponse, payment_data) {
+    // console.log('33f', payment_data)
     var createDocData = {
         // CUSTOMER credentials
         api_key: api_key,
@@ -171,6 +174,7 @@ var setPaymentData = function () {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
+                        // console.log('ee55', data)
                         payment_info = void 0, events = void 0, author = void 0;
                         _context.prev = 1;
                         _context.next = 4;
@@ -207,6 +211,9 @@ var setPaymentData = function () {
                         return author.save();
 
                     case 19:
+
+                        // console.log('33ee55', payment_info, createDocResponse)   
+
                         res.render('thankyou', _extends(createDocResponse, {
                             payment_info: payment_info
                         }));
@@ -217,6 +224,7 @@ var setPaymentData = function () {
                         _context.prev = 22;
                         _context.t0 = _context['catch'](9);
 
+                        // console.log('eee', e)
                         res.send('Erro Found...! If you think your payment clear plese contact us in contact page. Thanks');
 
                     case 25:
@@ -236,6 +244,7 @@ var setPaymentData = function () {
                         _context.prev = 30;
                         _context.t1 = _context['catch'](1);
 
+                        // console.log('656565', e)
                         res.render('thankyou', _extends(createDocResponse, {
                             payment_info: false
                         }));

@@ -7,8 +7,8 @@ const api = {
     },
     social_auth: {
       google: {
-        appId: '337114511124-44o17hnmqm4gjv0j16ree1e9q1bs2kdg.apps.googleusercontent.com',
-        client_secret: '3s5I8aDxUBVm9cgWkUU9pXW0'
+        appId: '498960392485-tuoue88o7kt3kjt841ni1tr3vn2qkolh.apps.googleusercontent.com',
+        client_secret: 'mVeyefoC_3CwLLCBy2JYNC_-'
       },
       facebook: {
         appId: '447232409015149'
