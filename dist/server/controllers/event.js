@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.fileUploadEvent = exports.getSingleEvent = exports.getEventByType = exports.getEvent = exports.deleteEvent = exports.updateEvent = exports.createEvent = exports.getAllEvent = undefined;
+exports.fileUploadEvent = exports.getSingleEvent = exports.getEventByType = exports.getEvent = exports.deleteEvent = exports.updateEvent = exports.createEvent = exports.getRecommendedEvent = exports.getAllEvent = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -40,7 +40,7 @@ var getAllEvent = exports.getAllEvent = function () {
                         _context.next = 3;
                         return _event.eventCrud.get({
                             select: '',
-                            populate: 'gifts'
+                            populate: 'type gifts'
                         });
 
                     case 3:
@@ -69,69 +69,130 @@ var getAllEvent = exports.getAllEvent = function () {
     };
 }();
 
-// Event Create
-var createEvent = exports.createEvent = function () {
+// This Controller Should Block After Development for Security purpose
+var getRecommendedEvent = exports.getRecommendedEvent = function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee2(req, res) {
-        var data, user;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
             while (1) {
                 switch (_context2.prev = _context2.next) {
                     case 0:
-                        data = _extends(req.body, {
-                            author: req.user._id
+                        _context2.prev = 0;
+                        _context2.next = 3;
+                        return _event.eventCrud.get({
+                            select: '',
+                            populate: 'type gifts',
+                            qr: {
+                                $or: req.body.cats
+                            }
                         });
-                        _context2.prev = 1;
-                        _context2.next = 4;
-                        return _event.eventCrud.create(data);
 
-                    case 4:
+                    case 3:
                         events = _context2.sent;
-                        _context2.next = 7;
-                        return _user.userModel.findOne({ _id: data.author });
 
-                    case 7:
-                        user = _context2.sent;
-
-                        user.events.push(events);
-                        _context2.next = 11;
-                        return user.save();
-
-                    case 11:
-                        res.status(201).json(events);
-                        _context2.next = 17;
+                        res.status(200).json(events);
+                        _context2.next = 10;
                         break;
 
-                    case 14:
-                        _context2.prev = 14;
-                        _context2.t0 = _context2['catch'](1);
+                    case 7:
+                        _context2.prev = 7;
+                        _context2.t0 = _context2['catch'](0);
 
-                        res.status(422).json({
-                            message: 'Please Validate Data',
-                            error: _context2.t0
-                        });
+                        res.status(400).json(_context2.t0);
 
-                    case 17:
+                    case 10:
                     case 'end':
                         return _context2.stop();
                 }
             }
-        }, _callee2, undefined, [[1, 14]]);
+        }, _callee2, undefined, [[0, 7]]);
     }));
 
-    return function createEvent(_x3, _x4) {
+    return function getRecommendedEvent(_x3, _x4) {
         return _ref2.apply(this, arguments);
+    };
+}();
+
+// Event Create
+var createEvent = exports.createEvent = function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee3(req, res) {
+        var data, user, affiliate;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+            while (1) {
+                switch (_context3.prev = _context3.next) {
+                    case 0:
+                        data = _extends(req.body, {
+                            author: req.user._id
+                        });
+                        _context3.prev = 1;
+                        _context3.next = 4;
+                        return _event.eventCrud.create(data);
+
+                    case 4:
+                        events = _context3.sent;
+                        _context3.next = 7;
+                        return _user.userModel.findOne({ _id: data.author });
+
+                    case 7:
+                        user = _context3.sent;
+
+                        user.events.push(events);
+                        _context3.next = 11;
+                        return user.save();
+
+                    case 11:
+                        if (!(req.query.ref_name && req.query.ref_id)) {
+                            _context3.next = 19;
+                            break;
+                        }
+
+                        _context3.next = 14;
+                        return _user.userModel.findOne({ _id: req.query.ref_id });
+
+                    case 14:
+                        affiliate = _context3.sent;
+
+                        console.log(events);
+                        affiliate.affiliate_event.push(events);
+                        _context3.next = 19;
+                        return affiliate.save();
+
+                    case 19:
+
+                        res.status(201).json(events);
+                        _context3.next = 25;
+                        break;
+
+                    case 22:
+                        _context3.prev = 22;
+                        _context3.t0 = _context3['catch'](1);
+
+                        res.status(422).json({
+                            message: 'Please Validate Data',
+                            error: _context3.t0
+                        });
+
+                    case 25:
+                    case 'end':
+                        return _context3.stop();
+                }
+            }
+        }, _callee3, undefined, [[1, 22]]);
+    }));
+
+    return function createEvent(_x5, _x6) {
+        return _ref3.apply(this, arguments);
     };
 }();
 
 // Event Update
 var updateEvent = exports.updateEvent = function () {
-    var _ref3 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee3(req, res) {
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+    var _ref4 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee4(req, res) {
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
             while (1) {
-                switch (_context3.prev = _context3.next) {
+                switch (_context4.prev = _context4.next) {
                     case 0:
-                        _context3.prev = 0;
-                        _context3.next = 3;
+                        _context4.prev = 0;
+                        _context4.next = 3;
                         return _event.eventCrud.put({
                             params: {
                                 qr: {
@@ -143,15 +204,15 @@ var updateEvent = exports.updateEvent = function () {
                         });
 
                     case 3:
-                        events = _context3.sent;
+                        events = _context4.sent;
 
                         res.status(201).json(events);
-                        _context3.next = 10;
+                        _context4.next = 10;
                         break;
 
                     case 7:
-                        _context3.prev = 7;
-                        _context3.t0 = _context3['catch'](0);
+                        _context4.prev = 7;
+                        _context4.t0 = _context4['catch'](0);
 
                         res.status(422).json({
                             success: false
@@ -159,32 +220,32 @@ var updateEvent = exports.updateEvent = function () {
 
                     case 10:
                     case 'end':
-                        return _context3.stop();
+                        return _context4.stop();
                 }
             }
-        }, _callee3, undefined, [[0, 7]]);
+        }, _callee4, undefined, [[0, 7]]);
     }));
 
-    return function updateEvent(_x5, _x6) {
-        return _ref3.apply(this, arguments);
+    return function updateEvent(_x7, _x8) {
+        return _ref4.apply(this, arguments);
     };
 }();
 
 // Event Delete
 var deleteEvent = exports.deleteEvent = function () {
-    var _ref4 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee4(req, res) {
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+    var _ref5 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee5(req, res) {
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
             while (1) {
-                switch (_context4.prev = _context4.next) {
+                switch (_context5.prev = _context5.next) {
                     case 0:
-                        _context4.prev = 0;
+                        _context5.prev = 0;
 
                         if (!(req.user.type === 'admin')) {
-                            _context4.next = 7;
+                            _context5.next = 7;
                             break;
                         }
 
-                        _context4.next = 4;
+                        _context5.next = 4;
                         return _event.eventCrud.delete({
                             params: {
                                 qr: { _id: req.params.id }
@@ -192,12 +253,12 @@ var deleteEvent = exports.deleteEvent = function () {
                         });
 
                     case 4:
-                        events = _context4.sent;
-                        _context4.next = 10;
+                        events = _context5.sent;
+                        _context5.next = 10;
                         break;
 
                     case 7:
-                        _context4.next = 9;
+                        _context5.next = 9;
                         return _event.eventCrud.delete({
                             params: {
                                 qr: {
@@ -208,22 +269,22 @@ var deleteEvent = exports.deleteEvent = function () {
                         });
 
                     case 9:
-                        events = _context4.sent;
+                        events = _context5.sent;
 
                     case 10:
-                        _context4.next = 12;
+                        _context5.next = 12;
                         return (0, _file.fileDelete)(events.thumbnail);
 
                     case 12:
                         res.status(201).json({
                             success: true
                         });
-                        _context4.next = 18;
+                        _context5.next = 18;
                         break;
 
                     case 15:
-                        _context4.prev = 15;
-                        _context4.t0 = _context4['catch'](0);
+                        _context5.prev = 15;
+                        _context5.t0 = _context5['catch'](0);
 
                         res.status(422).json({
                             success: false
@@ -231,26 +292,26 @@ var deleteEvent = exports.deleteEvent = function () {
 
                     case 18:
                     case 'end':
-                        return _context4.stop();
+                        return _context5.stop();
                 }
             }
-        }, _callee4, undefined, [[0, 15]]);
+        }, _callee5, undefined, [[0, 15]]);
     }));
 
-    return function deleteEvent(_x7, _x8) {
-        return _ref4.apply(this, arguments);
+    return function deleteEvent(_x9, _x10) {
+        return _ref5.apply(this, arguments);
     };
 }();
 
 // Get My Event
 var getEvent = exports.getEvent = function () {
-    var _ref5 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee5(req, res) {
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+    var _ref6 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee6(req, res) {
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
             while (1) {
-                switch (_context5.prev = _context5.next) {
+                switch (_context6.prev = _context6.next) {
                     case 0:
-                        _context5.prev = 0;
-                        _context5.next = 3;
+                        _context6.prev = 0;
+                        _context6.next = 3;
                         return _event.eventCrud.get({
                             qr: {
                                 author: req.user._id
@@ -259,15 +320,15 @@ var getEvent = exports.getEvent = function () {
                         });
 
                     case 3:
-                        events = _context5.sent;
+                        events = _context6.sent;
 
                         res.status(201).json(events);
-                        _context5.next = 10;
+                        _context6.next = 10;
                         break;
 
                     case 7:
-                        _context5.prev = 7;
-                        _context5.t0 = _context5['catch'](0);
+                        _context6.prev = 7;
+                        _context6.t0 = _context6['catch'](0);
 
                         res.status(422).json({
                             success: false
@@ -275,27 +336,27 @@ var getEvent = exports.getEvent = function () {
 
                     case 10:
                     case 'end':
-                        return _context5.stop();
+                        return _context6.stop();
                 }
             }
-        }, _callee5, undefined, [[0, 7]]);
+        }, _callee6, undefined, [[0, 7]]);
     }));
 
-    return function getEvent(_x9, _x10) {
-        return _ref5.apply(this, arguments);
+    return function getEvent(_x11, _x12) {
+        return _ref6.apply(this, arguments);
     };
 }();
 
 // Get My Event By Type
 var getEventByType = exports.getEventByType = function () {
-    var _ref6 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee6(req, res) {
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+    var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
             while (1) {
-                switch (_context6.prev = _context6.next) {
+                switch (_context7.prev = _context7.next) {
                     case 0:
                         console.log(req.headers.type);
-                        _context6.prev = 1;
-                        _context6.next = 4;
+                        _context7.prev = 1;
+                        _context7.next = 4;
                         return _event.eventCrud.get({
                             qr: {
                                 author: req.user._id,
@@ -305,15 +366,15 @@ var getEventByType = exports.getEventByType = function () {
                         });
 
                     case 4:
-                        events = _context6.sent;
+                        events = _context7.sent;
 
                         res.status(201).json(events);
-                        _context6.next = 11;
+                        _context7.next = 11;
                         break;
 
                     case 8:
-                        _context6.prev = 8;
-                        _context6.t0 = _context6['catch'](1);
+                        _context7.prev = 8;
+                        _context7.t0 = _context7['catch'](1);
 
                         res.status(422).json({
                             success: false
@@ -321,45 +382,45 @@ var getEventByType = exports.getEventByType = function () {
 
                     case 11:
                     case 'end':
-                        return _context6.stop();
+                        return _context7.stop();
                 }
             }
-        }, _callee6, undefined, [[1, 8]]);
+        }, _callee7, undefined, [[1, 8]]);
     }));
 
-    return function getEventByType(_x11, _x12) {
-        return _ref6.apply(this, arguments);
+    return function getEventByType(_x13, _x14) {
+        return _ref7.apply(this, arguments);
     };
 }();
 
 var getSingleEvent = exports.getSingleEvent = function () {
-    var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+    var _ref8 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee8(req, res) {
+        return _regenerator2.default.wrap(function _callee8$(_context8) {
             while (1) {
-                switch (_context7.prev = _context7.next) {
+                switch (_context8.prev = _context8.next) {
                     case 0:
-                        _context7.prev = 0;
-                        _context7.next = 3;
+                        _context8.prev = 0;
+                        _context8.next = 3;
                         return _event.eventCrud.single({
                             qr: {
                                 _id: req.params.id
                             },
                             populate: {
-                                path: 'author',
+                                path: 'author type',
                                 select: '-password -_id -email -withdrawn -gifts -personal_id'
                             }
                         });
 
                     case 3:
-                        events = _context7.sent;
+                        events = _context8.sent;
 
                         res.status(201).json(events);
-                        _context7.next = 10;
+                        _context8.next = 10;
                         break;
 
                     case 7:
-                        _context7.prev = 7;
-                        _context7.t0 = _context7['catch'](0);
+                        _context8.prev = 7;
+                        _context8.t0 = _context8['catch'](0);
 
                         res.status(422).json({
                             success: false
@@ -367,22 +428,22 @@ var getSingleEvent = exports.getSingleEvent = function () {
 
                     case 10:
                     case 'end':
-                        return _context7.stop();
+                        return _context8.stop();
                 }
             }
-        }, _callee7, undefined, [[0, 7]]);
+        }, _callee8, undefined, [[0, 7]]);
     }));
 
-    return function getSingleEvent(_x13, _x14) {
-        return _ref7.apply(this, arguments);
+    return function getSingleEvent(_x15, _x16) {
+        return _ref8.apply(this, arguments);
     };
 }();
 
 var fileUploadEvent = exports.fileUploadEvent = function () {
-    var _ref8 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee8(req, res) {
-        return _regenerator2.default.wrap(function _callee8$(_context8) {
+    var _ref9 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee9(req, res) {
+        return _regenerator2.default.wrap(function _callee9$(_context9) {
             while (1) {
-                switch (_context8.prev = _context8.next) {
+                switch (_context9.prev = _context9.next) {
                     case 0:
                         console.log(req.filePath);
                         res.status(201).json({
@@ -392,14 +453,14 @@ var fileUploadEvent = exports.fileUploadEvent = function () {
 
                     case 2:
                     case 'end':
-                        return _context8.stop();
+                        return _context9.stop();
                 }
             }
-        }, _callee8, undefined);
+        }, _callee9, undefined);
     }));
 
-    return function fileUploadEvent(_x15, _x16) {
-        return _ref8.apply(this, arguments);
+    return function fileUploadEvent(_x17, _x18) {
+        return _ref9.apply(this, arguments);
     };
 }();
 

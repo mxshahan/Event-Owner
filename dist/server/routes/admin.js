@@ -23,8 +23,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import passport from 'passport';
 var router = (0, _expressPromiseRouter2.default)();
 
-// router.route('/')
-// .get(getAllAdmin)
+router.route('/').get(_admin.getAllAdmin);
 
 router.route('/count').options((0, _cors2.default)()).get(_auth.isAuth, _admin.getAllCount);
 
@@ -71,5 +70,13 @@ router.route('/faq/delete/:id').options((0, _cors2.default)()).delete(_auth.isAu
 
 // UPDATE FAQ
 router.route('/faq/update').options((0, _cors2.default)()).post(_auth.isAuth, _admin.updateFAQ);
+
+// Get Categories
+router.route('/category').options((0, _cors2.default)()).get(_admin.getCategory);
+
+router.route('/category/:id').delete(_auth.isAuth, _admin.deleteCategory);
+
+// CREATE Category
+router.route('/category/create').options((0, _cors2.default)()).post(_auth.isAuth, _admin.createCategory);
 
 exports.default = router;

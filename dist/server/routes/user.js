@@ -18,18 +18,25 @@ var _auth = require('../mid/auth');
 
 var _file = require('../mid/file');
 
+var _facebookAuthentication = require('../mid/facebook-authentication');
+
+var _facebookAuthentication2 = _interopRequireDefault(_facebookAuthentication);
+
 var _user2 = require('../mid/user');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// const passportJWT = passport.authenticate('jwt', { session: false });
-var router = (0, _expressPromiseRouter2.default)();
 // import passport from 'passport';
+// const passportFacebook = passport.authenticate('facebook');
 
+// import passport from 'passport';
+var router = (0, _expressPromiseRouter2.default)();
 
 router.route('/login').options((0, _cors2.default)()).post(_user.LoginUser);
 
 router.route('/create').options((0, _cors2.default)()).post(_user.createUser);
+
+router.route('/').options((0, _cors2.default)()).put(_auth.isAuth, _user.updateUser);
 
 router.route('/me/:username').get(_user.getUser);
 
@@ -37,7 +44,11 @@ router.route('/delete/:username').options((0, _cors2.default)()).delete(_auth.is
 
 router.route('/facebook-login').options((0, _cors2.default)()).post(_user.facebookLogin);
 
+router.route('/facebook-login-success').get(_user.facebookSuccessLogin);
+
 router.route('/facebook-register').options((0, _cors2.default)()).post(_user.facebookRegister);
+
+router.route('/google-login').options((0, _cors2.default)()).post(_user.googleLogin);
 
 router.route('/check').options((0, _cors2.default)()).get(_user.checkUser);
 

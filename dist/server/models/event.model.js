@@ -30,8 +30,8 @@ var eventSchema = new _mongoose2.default.Schema({
         default: 'No Title'
     },
     type: {
-        type: String,
-        required: true
+        type: _mongoose2.default.Schema.Types.ObjectId,
+        ref: 'categoriesModel'
     },
     venue: {
         type: String,

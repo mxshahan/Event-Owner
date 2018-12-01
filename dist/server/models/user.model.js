@@ -75,6 +75,10 @@ var userSchema = new _mongoose2.default.Schema({
         type: _mongoose2.default.Schema.Types.ObjectId,
         ref: 'paymentModel'
     }],
+    categories: [{
+        type: _mongoose2.default.Schema.Types.ObjectId,
+        ref: 'categoriesModel'
+    }],
     withdrawn: [{
         type: _mongoose2.default.Schema.Types.ObjectId,
         ref: 'withdrawalModel'
@@ -92,7 +96,11 @@ var userSchema = new _mongoose2.default.Schema({
             id: String,
             token: String
         }
-    }
+    },
+    affiliate_event: [{
+        type: _mongoose2.default.Schema.Types.ObjectId,
+        ref: 'eventModel'
+    }]
 });
 
 userSchema.pre('save', function (next) {

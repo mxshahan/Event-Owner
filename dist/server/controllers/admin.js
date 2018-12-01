@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.updateFAQ = exports.createFAQ = exports.deleteFAQ = exports.getFAQ = exports.updateTerms = exports.getTerms = exports.updateCharges = exports.getCharges = exports.updateMailTo = exports.getMailTo = exports.updateContactInfo = exports.getContactInfo = exports.updateAdmin = exports.createAdmin = exports.loginAdmin = exports.getAdminData = exports.getAdmin = exports.getAllAdmin = exports.getAllCount = undefined;
+exports.deleteCategory = exports.createCategory = exports.getCategory = exports.updateFAQ = exports.createFAQ = exports.deleteFAQ = exports.getFAQ = exports.updateTerms = exports.getTerms = exports.updateCharges = exports.getCharges = exports.updateMailTo = exports.getMailTo = exports.updateContactInfo = exports.getContactInfo = exports.updateAdmin = exports.createAdmin = exports.loginAdmin = exports.getAdminData = exports.getAdmin = exports.getAllAdmin = exports.getAllCount = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -30,6 +30,8 @@ var _event = require('../models/event.model');
 var _payment = require('../models/payment.model');
 
 var _user = require('../models/user.model');
+
+var _categories = require('../models/admin/categories.model');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -366,7 +368,8 @@ var updateAdmin = exports.updateAdmin = function () {
 var contact = void 0,
     mailto = void 0,
     charges = void 0,
-    terms = void 0;
+    terms = void 0,
+    category = void 0;
 
 /*===========================
     Contact Controllers
@@ -1106,5 +1109,135 @@ var updateFAQ = exports.updateFAQ = function () {
 
     return function updateFAQ(_x38, _x39) {
         return _ref19.apply(this, arguments);
+    };
+}();
+
+var getCategory = exports.getCategory = function () {
+    var _ref20 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee20(req, res) {
+        return _regenerator2.default.wrap(function _callee20$(_context20) {
+            while (1) {
+                switch (_context20.prev = _context20.next) {
+                    case 0:
+                        _context20.prev = 0;
+                        _context20.next = 3;
+                        return _categories.categoriesCrud.get();
+
+                    case 3:
+                        category = _context20.sent;
+
+                        res.status(201).json(category);
+                        _context20.next = 10;
+                        break;
+
+                    case 7:
+                        _context20.prev = 7;
+                        _context20.t0 = _context20['catch'](0);
+
+                        res.status(422).json(_context20.t0);
+
+                    case 10:
+                    case 'end':
+                        return _context20.stop();
+                }
+            }
+        }, _callee20, undefined, [[0, 7]]);
+    }));
+
+    return function getCategory(_x40, _x41) {
+        return _ref20.apply(this, arguments);
+    };
+}();
+
+var createCategory = exports.createCategory = function () {
+    var _ref21 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee21(req, res) {
+        return _regenerator2.default.wrap(function _callee21$(_context21) {
+            while (1) {
+                switch (_context21.prev = _context21.next) {
+                    case 0:
+                        console.log(req.body);
+
+                        if (!(req.user.type === 'admin')) {
+                            _context21.next = 14;
+                            break;
+                        }
+
+                        _context21.prev = 2;
+                        _context21.next = 5;
+                        return _categories.categoriesCrud.create(req.body);
+
+                    case 5:
+                        category = _context21.sent;
+
+                        res.status(201).json(category);
+                        _context21.next = 12;
+                        break;
+
+                    case 9:
+                        _context21.prev = 9;
+                        _context21.t0 = _context21['catch'](2);
+
+                        res.status(422).json(_context21.t0);
+
+                    case 12:
+                        _context21.next = 15;
+                        break;
+
+                    case 14:
+                        res.status(402).json({
+                            err: true,
+                            msg: 'You have no rights to create this'
+                        });
+
+                    case 15:
+                    case 'end':
+                        return _context21.stop();
+                }
+            }
+        }, _callee21, undefined, [[2, 9]]);
+    }));
+
+    return function createCategory(_x42, _x43) {
+        return _ref21.apply(this, arguments);
+    };
+}();
+
+// Delete FAQ
+var deleteCategory = exports.deleteCategory = function () {
+    var _ref22 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee22(req, res) {
+        return _regenerator2.default.wrap(function _callee22$(_context22) {
+            while (1) {
+                switch (_context22.prev = _context22.next) {
+                    case 0:
+                        _context22.prev = 0;
+                        _context22.next = 3;
+                        return _categories.categoriesCrud.delete({
+                            params: {
+                                qr: { _id: req.params.id }
+                            }
+                        });
+
+                    case 3:
+                        category = _context22.sent;
+
+                        res.status(201).json(category);
+                        _context22.next = 10;
+                        break;
+
+                    case 7:
+                        _context22.prev = 7;
+                        _context22.t0 = _context22['catch'](0);
+
+                        res.status(422).json(_context22.t0);
+
+                    case 10:
+                    case 'end':
+                        return _context22.stop();
+                }
+            }
+        }, _callee22, undefined, [[0, 7]]);
+    }));
+
+    return function deleteCategory(_x44, _x45) {
+        return _ref22.apply(this, arguments);
     };
 }();

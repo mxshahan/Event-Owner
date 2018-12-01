@@ -28,9 +28,19 @@ var _expressFileupload = require('express-fileupload');
 
 var _expressFileupload2 = _interopRequireDefault(_expressFileupload);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _passport = require('passport');
 
-// import config from '../config/config';
+var _passport2 = _interopRequireDefault(_passport);
+
+var _passportFacebook = require('passport-facebook');
+
+var _passportFacebook2 = _interopRequireDefault(_passportFacebook);
+
+var _config = require('../config/config');
+
+var _config2 = _interopRequireDefault(_config);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // const ENV = "development"
 // const corsOption = {
@@ -53,4 +63,14 @@ exports.default = function (app) {
     if (process.env.NODE_ENV === 'development') {
         app.use((0, _morgan2.default)('dev'));
     }
+
+    // passport.use(new FacebookStrategy({
+    //     clientID: config.social.facebook.clientID,
+    //     clientSecret: config.social.facebook.clientSecret,
+    //     callbackURL: "/api/user/facebook-login-success"
+    // },
+    //     function (accessToken, refreshToken, profile, done) {
+    //         console.log(profile)
+    //     }
+    // ));
 };

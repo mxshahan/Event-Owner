@@ -43,6 +43,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var port = process.env.PORT || 3000;
 var app = (0, _express2.default)();
 
+// Static Paths
+var clientPath = _path2.default.resolve(__dirname, '../../dist/client');
+var publicPath = _path2.default.resolve(__dirname, '../../public');
+
+// Development
+// import webpack from 'webpack';
+// import webpackDevMiddleware from 'webpack-dev-middleware';
+// import webpackHotMiddleware from 'webpack-hot-middleware';
+// import webpackConfig from '../../webpack.dev.js';
+
+// const compiler = webpack(webpackConfig);
+
+// app.use(webpackDevMiddleware(compiler, webpackConfig.devServer))
+// app.use(webpackHotMiddleware(compiler))
+
 var certConfig = {
   key: _fs2.default.readFileSync(_path2.default.resolve(__dirname, '../../dev.deliciousbrains.com.key')),
   cert: _fs2.default.readFileSync(_path2.default.resolve(__dirname, '../../dev.deliciousbrains.com.crt'))
@@ -58,8 +73,6 @@ app.use('/api', _openClearingForm2.default);
 
 // Error Handler
 // errorHandler(app);
-var clientPath = _path2.default.resolve(__dirname, '../../dist/client');
-var publicPath = _path2.default.resolve(__dirname, '../../public');
 
 app.use(_express2.default.static(publicPath));
 app.set('env', process.env.NODE_ENV);

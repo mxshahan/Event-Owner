@@ -26,6 +26,8 @@ var router = (0, _expressPromiseRouter2.default)();
 
 router.route('/').get(_auth.isAuth, _event.getAllEvent);
 
+router.route('/filter').options((0, _cors2.default)()).patch(_event.getRecommendedEvent);
+
 router.route('/create').options((0, _cors2.default)()).post((0, _validateInput.validateBody)(_validateInput.schemas.events), _auth.isAuth, _event.createEvent);
 
 router.route('/MY_EVENTS').options((0, _cors2.default)()).get(_auth.isAuth, _event.getEvent);

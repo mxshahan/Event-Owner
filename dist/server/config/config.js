@@ -23,7 +23,13 @@ var config = {
         email: 'event.owner.fvr@gmail.com',
         password: 'evnt@ownr2121'
     },
-    stripe: stripeConfig
+    stripe: stripeConfig,
+    social: {
+        facebook: {
+            clientID: '447232409015149',
+            clientSecret: 'eeb9c0cbc9701385e1127c1436a705d2'
+        }
+    }
 };
 
 exports.default = config;

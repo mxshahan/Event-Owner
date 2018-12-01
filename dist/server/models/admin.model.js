@@ -73,6 +73,10 @@ var adminSchema = new _mongoose2.default.Schema({
         type: _mongoose2.default.Schema.Types.ObjectId,
         ref: 'faqModel'
     }],
+    categories: [{
+        type: _mongoose2.default.Schema.Types.ObjectId,
+        ref: 'categoriesModel'
+    }],
     mailto: {
         type: _mongoose2.default.Schema.Types.ObjectId,
         ref: 'mailtoModel'
