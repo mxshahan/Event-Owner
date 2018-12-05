@@ -17,6 +17,8 @@ var _user = require('../models/user.model');
 
 var _file = require('../mid/file');
 
+var _affiliate = require('../models/affiliate.model');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
@@ -141,29 +143,29 @@ var createEvent = exports.createEvent = function () {
 
                     case 11:
                         if (!(req.query.ref_name && req.query.ref_id)) {
-                            _context3.next = 19;
+                            _context3.next = 18;
                             break;
                         }
 
                         _context3.next = 14;
-                        return _user.userModel.findOne({ _id: req.query.ref_id });
+                        return _affiliate.affiliateModel.findOne({ _id: req.query.ref_id });
 
                     case 14:
                         affiliate = _context3.sent;
 
-                        console.log(events);
+                        // console.log(events)
                         affiliate.affiliate_event.push(events);
-                        _context3.next = 19;
+                        _context3.next = 18;
                         return affiliate.save();
 
-                    case 19:
+                    case 18:
 
                         res.status(201).json(events);
-                        _context3.next = 25;
+                        _context3.next = 24;
                         break;
 
-                    case 22:
-                        _context3.prev = 22;
+                    case 21:
+                        _context3.prev = 21;
                         _context3.t0 = _context3['catch'](1);
 
                         res.status(422).json({
@@ -171,12 +173,12 @@ var createEvent = exports.createEvent = function () {
                             error: _context3.t0
                         });
 
-                    case 25:
+                    case 24:
                     case 'end':
                         return _context3.stop();
                 }
             }
-        }, _callee3, undefined, [[1, 22]]);
+        }, _callee3, undefined, [[1, 21]]);
     }));
 
     return function createEvent(_x5, _x6) {

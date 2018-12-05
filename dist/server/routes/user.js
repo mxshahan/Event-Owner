@@ -38,7 +38,7 @@ router.route('/create').options((0, _cors2.default)()).post(_user.createUser);
 
 router.route('/').options((0, _cors2.default)()).put(_auth.isAuth, _user.updateUser);
 
-router.route('/me/:username').get(_user.getUser);
+router.route('/me').get(_auth.isAuth, _user.getMe);
 
 router.route('/delete/:username').options((0, _cors2.default)()).delete(_auth.isAuth, _user.deleteUser);
 
@@ -55,5 +55,7 @@ router.route('/check').options((0, _cors2.default)()).get(_user.checkUser);
 router.route('/all').options((0, _cors2.default)()).get(_auth.isAuth, _user.getAllUser);
 
 router.route('/upload').options((0, _cors2.default)()).post(_auth.isAuth, _file.fileUploadMiddlware, _user.fileUpload);
+
+router.route('/:username').get(_user.getUser);
 
 exports.default = router;

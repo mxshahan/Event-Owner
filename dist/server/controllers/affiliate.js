@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fileUpload = exports.checkUser = exports.deleteUser = exports.updateUser = exports.createUser = exports.LoginUser = exports.getUser = exports.getMe = exports.googleLogin = exports.facebookRegister = exports.facebookSuccessLogin = exports.facebookLogin = exports.getAllUser = undefined;
+exports.fileUpload = exports.checkAffiliate = exports.deleteAffiliate = exports.updateAffiliate = exports.createAffiliate = exports.LoginAffiliate = exports.getAffiliate = exports.getMyAccount = exports.googleLogin = exports.facebookRegister = exports.facebookSuccessLogin = exports.facebookLogin = exports.getAllAffiliate = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -11,9 +11,9 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _user = require('../models/user.model');
-
 var _file = require('../mid/file');
+
+var _affiliate = require('../models/affiliate.model');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21,10 +21,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 
-var user = void 0;
-var users = void 0;
+var Affiliate = void 0;
+var Affiliates = void 0;
 
-var getAllUser = exports.getAllUser = function () {
+var getAllAffiliate = exports.getAllAffiliate = function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee(req, res) {
     return _regenerator2.default.wrap(function _callee$(_context) {
       while (1) {
@@ -32,13 +32,13 @@ var getAllUser = exports.getAllUser = function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return _user.userModel.find().select('-password').populate('events');
+            return _affiliate.affiliateModel.find().select('-password').populate('events');
 
           case 3:
-            users = _context.sent;
+            Affiliates = _context.sent;
 
 
-            res.status(200).json(users);
+            res.status(200).json(Affiliates);
             _context.next = 10;
             break;
 
@@ -56,72 +56,72 @@ var getAllUser = exports.getAllUser = function () {
     }, _callee, undefined, [[0, 7]]);
   }));
 
-  return function getAllUser(_x, _x2) {
+  return function getAllAffiliate(_x, _x2) {
     return _ref.apply(this, arguments);
   };
 }();
 
 var facebookLogin = exports.facebookLogin = function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee2(req, res) {
-    var newUser;
+    var newAffiliate;
     return _regenerator2.default.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return _user.userModel.findOne({
+            return _affiliate.affiliateModel.findOne({
               $or: [{
                 email: req.body.email
               }, {
                 social: {
                   facebook: {
-                    id: req.body.userID
+                    id: req.body.AffiliateID
                   }
                 }
               }]
             });
 
           case 3:
-            user = _context2.sent;
+            Affiliate = _context2.sent;
 
-            if (!user) {
+            if (!Affiliate) {
               _context2.next = 10;
               break;
             }
 
-            _extends(user.social, {
+            _extends(Affiliate.social, {
               facebook: {
-                id: req.body.userID,
+                id: req.body.AffiliateID,
                 token: req.body.accessToken
               }
             });
-            user.save();
-            res.status(201).json(user.toAuthJSON());
+            Affiliate.save();
+            res.status(201).json(Affiliate.toAuthJSON());
             _context2.next = 14;
             break;
 
           case 10:
             _context2.next = 12;
-            return _user.userModel.create({
+            return _affiliate.affiliateModel.create({
               firstname: req.body.firstname,
               lastname: req.body.lastname,
-              password: req.body.userID,
+              password: req.body.AffiliateID,
               email: req.body.email,
               username: req.body.username,
               profile_picture: req.body.picture,
               social: {
                 facebook: {
                   accessToken: req.body.accessToken,
-                  id: req.body.userID
+                  id: req.body.AffiliateID
                 }
               }
             });
 
           case 12:
-            newUser = _context2.sent;
+            newAffiliate = _context2.sent;
 
-            res.status(201).json(newUser.toAuthJSON());
+            res.status(201).json(newAffiliate.toAuthJSON());
 
           case 14:
             _context2.next = 19;
@@ -173,58 +173,58 @@ var facebookSuccessLogin = exports.facebookSuccessLogin = function () {
 
 var facebookRegister = exports.facebookRegister = function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee4(req, res) {
-    var newUser;
+    var newAffiliate;
     return _regenerator2.default.wrap(function _callee4$(_context4) {
       while (1) {
         switch (_context4.prev = _context4.next) {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return _user.userModel.findOne({
+            return _affiliate.affiliateModel.findOne({
               $or: [{
                 email: req.body.email
               }, {
                 social: {
                   facebook: {
-                    id: req.body.userID
+                    id: req.body.AffiliateID
                   }
                 }
               }]
             });
 
           case 3:
-            user = _context4.sent;
+            Affiliate = _context4.sent;
 
-            if (!user) {
+            if (!Affiliate) {
               _context4.next = 8;
               break;
             }
 
-            res.status(201).json(user.toAuthJSON());
+            res.status(201).json(Affiliate.toAuthJSON());
             _context4.next = 12;
             break;
 
           case 8:
             _context4.next = 10;
-            return _user.userModel.create({
+            return _affiliate.affiliateModel.create({
               firstname: req.body.firstname,
               lastname: req.body.lastname,
-              password: req.body.userID,
+              password: req.body.AffiliateID,
               email: req.body.email,
               username: req.body.username,
               profile_picture: req.body.picture,
               social: {
                 facebook: {
                   accessToken: req.body.accessToken,
-                  id: req.body.userID
+                  id: req.body.AffiliateID
                 }
               }
             });
 
           case 10:
-            newUser = _context4.sent;
+            newAffiliate = _context4.sent;
 
-            res.status(201).json(newUser.toAuthJSON());
+            res.status(201).json(newAffiliate.toAuthJSON());
 
           case 12:
             _context4.next = 17;
@@ -255,65 +255,65 @@ var facebookRegister = exports.facebookRegister = function () {
 
 var googleLogin = exports.googleLogin = function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee5(req, res) {
-    var newUser;
+    var newAffiliate;
     return _regenerator2.default.wrap(function _callee5$(_context5) {
       while (1) {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return _user.userModel.findOne({
+            return _affiliate.affiliateModel.findOne({
               $or: [{
                 email: req.body.email
               }, {
                 social: {
                   google: {
-                    id: req.body.userID
+                    id: req.body.AffiliateID
                   }
                 }
               }]
             });
 
           case 3:
-            user = _context5.sent;
+            Affiliate = _context5.sent;
 
-            if (!user) {
+            if (!Affiliate) {
               _context5.next = 10;
               break;
             }
 
-            _extends(user.social, {
+            _extends(Affiliate.social, {
               google: {
-                id: req.body.userID,
+                id: req.body.AffiliateID,
                 token: req.body.accessToken
               }
             });
-            user.save();
-            res.status(201).json(user.toAuthJSON());
+            Affiliate.save();
+            res.status(201).json(Affiliate.toAuthJSON());
             _context5.next = 14;
             break;
 
           case 10:
             _context5.next = 12;
-            return _user.userModel.create({
+            return _affiliate.affiliateModel.create({
               firstname: req.body.firstname,
               lastname: req.body.lastname,
-              password: req.body.userID,
+              password: req.body.AffiliateID,
               email: req.body.email,
               username: req.body.username,
               profile_picture: req.body.picture,
               social: {
                 google: {
                   accessToken: req.body.accessToken,
-                  id: req.body.userID
+                  id: req.body.AffiliateID
                 }
               }
             });
 
           case 12:
-            newUser = _context5.sent;
+            newAffiliate = _context5.sent;
 
-            res.status(201).json(newUser.toAuthJSON());
+            res.status(201).json(newAffiliate.toAuthJSON());
 
           case 14:
             _context5.next = 19;
@@ -342,15 +342,16 @@ var googleLogin = exports.googleLogin = function () {
   };
 }();
 
-var getMe = exports.getMe = function () {
+var getMyAccount = exports.getMyAccount = function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee6(req, res) {
     return _regenerator2.default.wrap(function _callee6$(_context6) {
       while (1) {
         switch (_context6.prev = _context6.next) {
           case 0:
-            _context6.prev = 0;
-            _context6.next = 3;
-            return _user.userModel.findOne({
+            console.log(req.user._id);
+            _context6.prev = 1;
+            _context6.next = 4;
+            return _affiliate.affiliateModel.findOne({
               _id: req.user._id
             }).select('-password').populate(_defineProperty({
               path: 'events gifts withdrawn categories affiliate_event',
@@ -363,34 +364,34 @@ var getMe = exports.getMe = function () {
               model: 'categoriesModel'
             }));
 
-          case 3:
-            user = _context6.sent;
+          case 4:
+            Affiliate = _context6.sent;
 
-            res.status(201).json(user);
-            _context6.next = 11;
+            res.status(201).json(Affiliate);
+            _context6.next = 12;
             break;
 
-          case 7:
-            _context6.prev = 7;
-            _context6.t0 = _context6['catch'](0);
+          case 8:
+            _context6.prev = 8;
+            _context6.t0 = _context6['catch'](1);
 
             console.log(_context6.t0);
             res.status(500).json(_context6.t0);
 
-          case 11:
+          case 12:
           case 'end':
             return _context6.stop();
         }
       }
-    }, _callee6, undefined, [[0, 7]]);
+    }, _callee6, undefined, [[1, 8]]);
   }));
 
-  return function getMe(_x11, _x12) {
+  return function getMyAccount(_x11, _x12) {
     return _ref6.apply(this, arguments);
   };
 }();
 
-var getUser = exports.getUser = function () {
+var getAffiliate = exports.getAffiliate = function () {
   var _ref7 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee7(req, res) {
     return _regenerator2.default.wrap(function _callee7$(_context7) {
       while (1) {
@@ -398,7 +399,7 @@ var getUser = exports.getUser = function () {
           case 0:
             _context7.prev = 0;
             _context7.next = 3;
-            return _user.userModel.findOne({
+            return _affiliate.affiliateModel.findOne({
               username: req.params.username
             }).select('-password').populate(_defineProperty({
               path: 'events gifts withdrawn categories affiliate_event',
@@ -412,9 +413,9 @@ var getUser = exports.getUser = function () {
             }));
 
           case 3:
-            user = _context7.sent;
+            Affiliate = _context7.sent;
 
-            res.status(201).json(user);
+            res.status(201).json(Affiliate);
             _context7.next = 11;
             break;
 
@@ -433,12 +434,12 @@ var getUser = exports.getUser = function () {
     }, _callee7, undefined, [[0, 7]]);
   }));
 
-  return function getUser(_x13, _x14) {
+  return function getAffiliate(_x13, _x14) {
     return _ref7.apply(this, arguments);
   };
 }();
 
-var LoginUser = exports.LoginUser = function () {
+var LoginAffiliate = exports.LoginAffiliate = function () {
   var _ref8 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee8(req, res) {
     var _req$body, username, password;
 
@@ -449,7 +450,7 @@ var LoginUser = exports.LoginUser = function () {
             _req$body = req.body, username = _req$body.username, password = _req$body.password;
             _context8.prev = 1;
             _context8.next = 4;
-            return _user.userModel.findOne({
+            return _affiliate.affiliateModel.findOne({
               $or: [{
                 'email': username
               }, {
@@ -458,10 +459,10 @@ var LoginUser = exports.LoginUser = function () {
             });
 
           case 4:
-            user = _context8.sent;
+            Affiliate = _context8.sent;
 
-            if (user.isAuthenticated(password)) {
-              res.status(201).json(user.toAuthJSON());
+            if (Affiliate.isAuthenticated(password)) {
+              res.status(201).json(Affiliate.toAuthJSON());
             } else {
               res.status(500).json({
                 success: false
@@ -483,21 +484,21 @@ var LoginUser = exports.LoginUser = function () {
     }, _callee8, undefined, [[1, 8]]);
   }));
 
-  return function LoginUser(_x15, _x16) {
+  return function LoginAffiliate(_x15, _x16) {
     return _ref8.apply(this, arguments);
   };
 }();
 
 // export const updateProfile = async (req, res) => {
 //   try {
-//     user = await userModel.create(req.body);
-//     res.status(201).json(user.toAuthJSON())
+//     Affiliate = await affiliateModel.create(req.body);
+//     res.status(201).json(Affiliate.toAuthJSON())
 //   } catch (e) {
 //     res.status(500).json(e)
 //   }
 // }
 
-var createUser = exports.createUser = function () {
+var createAffiliate = exports.createAffiliate = function () {
   var _ref9 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee9(req, res) {
     return _regenerator2.default.wrap(function _callee9$(_context9) {
       while (1) {
@@ -505,12 +506,12 @@ var createUser = exports.createUser = function () {
           case 0:
             _context9.prev = 0;
             _context9.next = 3;
-            return _user.userModel.create(req.body);
+            return _affiliate.affiliateModel.create(req.body);
 
           case 3:
-            user = _context9.sent;
+            Affiliate = _context9.sent;
 
-            res.status(201).json(user.toAuthJSON());
+            res.status(201).json(Affiliate.toAuthJSON());
             _context9.next = 10;
             break;
 
@@ -528,21 +529,21 @@ var createUser = exports.createUser = function () {
     }, _callee9, undefined, [[0, 7]]);
   }));
 
-  return function createUser(_x17, _x18) {
+  return function createAffiliate(_x17, _x18) {
     return _ref9.apply(this, arguments);
   };
 }();
 
-var updateUser = exports.updateUser = function () {
+var updateAffiliate = exports.updateAffiliate = function () {
   var _ref10 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee10(req, res) {
-    var userData;
+    var AffiliateData;
     return _regenerator2.default.wrap(function _callee10$(_context10) {
       while (1) {
         switch (_context10.prev = _context10.next) {
           case 0:
             _context10.prev = 0;
             _context10.next = 3;
-            return _user.userCrud.put({
+            return _affiliate.affiliateCrud.put({
               params: {
                 qr: {
                   _id: req.user._id
@@ -552,10 +553,10 @@ var updateUser = exports.updateUser = function () {
             });
 
           case 3:
-            user = _context10.sent;
+            Affiliate = _context10.sent;
             _context10.next = 6;
-            return _user.userCrud.single({
-              qr: { _id: user._id },
+            return _affiliate.affiliateCrud.single({
+              qr: { _id: Affiliate._id },
               select: '-password',
               populate: _defineProperty({
                 path: 'events gifts withdrawn categories affiliate_event',
@@ -570,9 +571,9 @@ var updateUser = exports.updateUser = function () {
             });
 
           case 6:
-            userData = _context10.sent;
+            AffiliateData = _context10.sent;
 
-            res.status(201).json(userData);
+            res.status(201).json(AffiliateData);
             _context10.next = 13;
             break;
 
@@ -590,12 +591,12 @@ var updateUser = exports.updateUser = function () {
     }, _callee10, undefined, [[0, 10]]);
   }));
 
-  return function updateUser(_x19, _x20) {
+  return function updateAffiliate(_x19, _x20) {
     return _ref10.apply(this, arguments);
   };
 }();
 
-var deleteUser = exports.deleteUser = function () {
+var deleteAffiliate = exports.deleteAffiliate = function () {
   var _ref11 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee11(req, res) {
     return _regenerator2.default.wrap(function _callee11$(_context11) {
       while (1) {
@@ -608,16 +609,16 @@ var deleteUser = exports.deleteUser = function () {
 
             _context11.prev = 1;
             _context11.next = 4;
-            return _user.userCrud.delete({
+            return _affiliate.affiliateCrud.delete({
               params: {
                 qr: { username: req.params.username }
               }
             });
 
           case 4:
-            user = _context11.sent;
+            Affiliate = _context11.sent;
 
-            res.status(201).json(user);
+            res.status(201).json(Affiliate);
             _context11.next = 11;
             break;
 
@@ -642,23 +643,22 @@ var deleteUser = exports.deleteUser = function () {
     }, _callee11, undefined, [[1, 8]]);
   }));
 
-  return function deleteUser(_x21, _x22) {
+  return function deleteAffiliate(_x21, _x22) {
     return _ref11.apply(this, arguments);
   };
 }();
 
-var checkUser = exports.checkUser = function () {
+var checkAffiliate = exports.checkAffiliate = function () {
   var _ref12 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee12(req, res) {
     var username;
     return _regenerator2.default.wrap(function _callee12$(_context12) {
       while (1) {
         switch (_context12.prev = _context12.next) {
           case 0:
-            // console.log(req.headers.username);
             username = req.headers.username;
             _context12.prev = 1;
             _context12.next = 4;
-            return _user.userModel.findOne({
+            return _affiliate.affiliateModel.findOne({
               $or: [{
                 'email': username
               }, {
@@ -667,9 +667,9 @@ var checkUser = exports.checkUser = function () {
             });
 
           case 4:
-            user = _context12.sent;
+            Affiliate = _context12.sent;
 
-            if (user) {
+            if (Affiliate) {
               res.status(202).json({
                 found: true
               });
@@ -678,16 +678,17 @@ var checkUser = exports.checkUser = function () {
                 found: false
               });
             }
-            _context12.next = 11;
+            _context12.next = 12;
             break;
 
           case 8:
             _context12.prev = 8;
             _context12.t0 = _context12['catch'](1);
 
+            console.log(_context12.t0);
             res.status(422).json(_context12.t0);
 
-          case 11:
+          case 12:
           case 'end':
             return _context12.stop();
         }
@@ -695,30 +696,30 @@ var checkUser = exports.checkUser = function () {
     }, _callee12, undefined, [[1, 8]]);
   }));
 
-  return function checkUser(_x23, _x24) {
+  return function checkAffiliate(_x23, _x24) {
     return _ref12.apply(this, arguments);
   };
 }();
 
 var fileUpload = exports.fileUpload = function () {
   var _ref13 = _asyncToGenerator( /*#__PURE__*/_regenerator2.default.mark(function _callee13(req, res) {
-    var singleUser, filePath, fileName;
+    var singleAffiliate, filePath, fileName;
     return _regenerator2.default.wrap(function _callee13$(_context13) {
       while (1) {
         switch (_context13.prev = _context13.next) {
           case 0:
             _context13.prev = 0;
             _context13.next = 3;
-            return _user.userCrud.single({
+            return _affiliate.affiliateCrud.single({
               qr: {
                 _id: req.user._id
               }
             });
 
           case 3:
-            singleUser = _context13.sent;
+            singleAffiliate = _context13.sent;
             _context13.next = 6;
-            return _user.userCrud.put({
+            return _affiliate.affiliateCrud.put({
               params: {
                 qr: {
                   _id: req.user._id
@@ -731,8 +732,8 @@ var fileUpload = exports.fileUpload = function () {
             });
 
           case 6:
-            user = _context13.sent;
-            filePath = singleUser.profile_picture;
+            Affiliate = _context13.sent;
+            filePath = singleAffiliate.profile_picture;
 
             if (!filePath) {
               _context13.next = 12;
@@ -745,7 +746,7 @@ var fileUpload = exports.fileUpload = function () {
 
           case 12:
 
-            res.status(200).json(user);
+            res.status(200).json(Affiliate);
             _context13.next = 18;
             break;
 

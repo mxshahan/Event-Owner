@@ -52,9 +52,10 @@ exports.default = function (req, res) {
         });
     } else if (url.startsWith('/successAndInvoice')) {
         successClearingForm();
-    } else {
-        _flushResponseEnd('<h1>Wrong Page!<h1>'); //write a response
     }
+    // else {
+    //     _flushResponseEnd('<h1>Wrong Page!<h1>'); //write a response
+    // }
 
     function initClearingForm() {
         return new Promise(function (resolve, reject) {
